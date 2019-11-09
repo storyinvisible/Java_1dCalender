@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "270682307622",
+    "firebase_url": "https://meow-90afa.firebaseio.com",
+    "project_id": "meow-90afa",
+    "storage_bucket": "meow-90afa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270682307622:android:868bf28e1e178320f27ae7",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270682307622-v0unrlo2hkgkuqhjguhln5tn7l5j0jhj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "50355cda3c3f25b51009e5974cbe38b6e27c3e9b"
+          }
+        },
+        {
+          "client_id": "270682307622-hbcsat3tpss5e1jd45mh58k7h6h6go3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz3ljP3OCSHJF34tc9wOHwYE6l5LrxBQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270682307622-hbcsat3tpss5e1jd45mh58k7h6h6go3n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
