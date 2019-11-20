@@ -97,19 +97,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String str_email=username.getText().toString();
                 String str_password=password.getText().toString();
-                progressDialog.setMessage("Processing Logging in...");
-                progressDialog.show();
-                firebaseAuth.signInWithEmailAndPassword(str_email,str_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this,"Logged in successfully",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this,LoggedInActivity.class));
-                        } else
-                            Toast.makeText(MainActivity.this,"Logged in failed",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (str_email.isEmpty()||str_password.isEmpty()) {
+                    Toast.makeText(MainActivity.this,"Email or password cannot be empty",Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.setMessage("Processing Logging in...");
+                    progressDialog.show();
+                    firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(MainActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(MainActivity.this, LoggedInActivity.class));
+                            } else
+                                Toast.makeText(MainActivity.this, "Logged in failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
