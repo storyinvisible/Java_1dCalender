@@ -16,7 +16,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 public class RegistrationActivity extends AppCompatActivity {
     private EditText name;
     private EditText email;
@@ -25,7 +29,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextView signupback;
     private SignupInfo signupInfo;
     private FirebaseAuth firebaseAuth;
-
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mRef = mDatabase.getRef();
+    DatabaseReference userinfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +58,8 @@ public class RegistrationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegistrationActivity.this,"Sign up successfully",Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegistrationActivity.this,MainActivity.class));
-
+                            int user = Integer.valueOf(name.getText().toString());
+                            mRef.child("user").setValue(user);
                         } else Toast.makeText(RegistrationActivity.this,"Sign up failed",Toast.LENGTH_SHORT).show();
                     }
                 });
