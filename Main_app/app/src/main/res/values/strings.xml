@@ -14,4 +14,5 @@
     <string name="logoutmenuname">Logout</string>
     <string name="settingsMenuname">Settings</string>
     <string name="refreshMenuname">Refresh</string>
+    <string name="etsignupidnum">Student ID</string>
 </resources>
