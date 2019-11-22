@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Tryingout_Calendere.iml" filepath="$PROJECT_DIR$/Tryingout_Calendere.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Trying_calendar.iml" filepath="$PROJECT_DIR$/Trying_calendar.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

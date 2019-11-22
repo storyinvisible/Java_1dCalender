@@ -700,6 +700,10 @@
         "source": "C:\\Users\\Zhibo\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
     },
     {
+        "merged": "D:\\SUTD\\Term 4 Introduction to Information System\\1D\\Java_1dCalender\\Trying_calendar\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_basic_.xml.flat",
+        "source": "D:\\SUTD\\Term 4 Introduction to Information System\\1D\\Java_1dCalender\\Trying_calendar\\app\\src\\main\\res\\layout\\activity_basic_.xml"
+    },
+    {
         "merged": "D:\\SUTD\\Term 4 Introduction to Information System\\1D\\Java_1dCalender\\Trying_calendar\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
         "source": "C:\\Users\\Zhibo\\.gradle\\caches\\transforms-2\\files-2.1\\37ec02f661e3547c5499ecdfd9f3cd1f\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_list_selector_disabled_holo_light.9.png"
     },

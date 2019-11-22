@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tryingout_calendere.test" >
+    package="com.example.trying_calendar.test" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -10,8 +10,8 @@
         android:name="androidx.test.runner.AndroidJUnitRunner"
         android:functionalTest="false"
         android:handleProfiling="false"
-        android:label="Tests for com.example.tryingout_calendere"
-        android:targetPackage="com.example.tryingout_calendere" />
+        android:label="Tests for com.example.trying_calendar"
+        android:targetPackage="com.example.trying_calendar" />
 
     <application android:debuggable="true" >
         <uses-library android:name="android.test.runner" />

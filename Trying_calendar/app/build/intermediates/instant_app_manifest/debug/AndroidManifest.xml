@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tryingout_calendere"
+    package="com.example.trying_calendar"
     android:targetSandboxVersion="2"
     android:versionCode="1"
     android:versionName="1.0" >
@@ -8,6 +8,8 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="29" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,8 +19,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.example.tryingout_calendere.MainActivity" >
+        <activity android:name="com.example.trying_calendar.Basic_Activity" />
+        <activity android:name="com.example.trying_calendar.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
