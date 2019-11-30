@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_back_to_basic"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ic_clear"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/eventEdit"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:background="#adecff"
+            android:hint="@string/event_title_hint"
+            android:paddingLeft="3dp"
+            android:paddingTop="6dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="6dp"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_back_to_basic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_back_to_basic"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/date_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:background="#adecff"
+            android:padding="4dp"
+            android:hint="@string/ddmmyyyy"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/dateImgView"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/date_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="#adecff"
+            android:gravity="center"
+            android:hint="@string/ddmmyyyy"
+            android:padding="4dp"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
+            app:layout_constraintStart_toEndOf="@+id/toTimeEdit"
+            app:layout_constraintTop_toTopOf="@+id/dateImgView"
+            tools:ignore="SmallSp" />
+
+        <EditText
+            android:id="@+id/detailsEdit"
+            android:layout_width="240dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:background="#adecff"
+            android:hint="@string/enter_details"
+            android:paddingLeft="3dp"
+            android:paddingTop="6dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="6dp"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/detailImgView"
+            android:gravity="start"
+            tools:ignore="SmallSp" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="62dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/ok"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="@+id/detailsEdit"
+            app:layout_constraintStart_toStartOf="@+id/detailsEdit"
+            app:layout_constraintTop_toBottomOf="@+id/detailsEdit" />
+
+        <ImageView
+            android:id="@+id/dateImgView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventEdit"
+            app:srcCompat="@drawable/ic_date_range" />
+
+        <ImageView
+            android:id="@+id/detailImgView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateImgView"
+            app:srcCompat="@drawable/ic_action_news" />
+
+        <TextView
+            android:id="@+id/fromTimeEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:hint="@string/_00_00"
+            android:padding="2dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
+            app:layout_constraintStart_toEndOf="@+id/date_from"
+            app:layout_constraintTop_toTopOf="@+id/dateImgView" />
+
+        <TextView
+            android:id="@+id/toTimeEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:hint="@string/_00_00"
+            android:padding="2dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
+            app:layout_constraintStart_toEndOf="@+id/toTextView"
+            app:layout_constraintTop_toTopOf="@+id/dateImgView" />
+
+        <TextView
+            android:id="@+id/toTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/to"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
+            app:layout_constraintStart_toEndOf="@+id/fromTimeEdit"
+            app:layout_constraintTop_toTopOf="@+id/dateImgView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

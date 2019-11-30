@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Trying_calendar</string>
+    <string name="today_s_date">today\'s date</string>
+    <string name="weekly_schedule">Weekly Schedule</string>
+    <string name="daily_schedule">Daily Schedule</string>
+    <string name="welcome">Welcome!</string>
+    <string name="title">Title</string>
+    <string name="date_of_event">date of event</string>
+    <string name="events_pop_up">Events Pop Up</string>
+    <string name="event_title_semicolon">Event Title: </string>
+    <string name="event_title">Event Title</string>
+    <string name="ddmmyy_semicolon">ddmmyy: </string>
+    <string name="ddmmyyyy">dd/mm/yyyy </string>
+    <string name="enter_details">enter details</string>
+    <string name="ok">OK</string>
+    <string name="event_title_hint">enter event title</string>
+    <string name="enter_ddmmyyyy">enter ddmmyyyy</string>
+    <string name="details">Details</string>
+    <string name="details_semicolon">Details:</string>
+    <string name="todo">TODO</string>
+    <string name="from">From: </string>
+    <string name="to">to</string>
+    <string name="_00_00">00:00</string>
+    <string name="create_an_event">Create An Event</string>
+</resources>

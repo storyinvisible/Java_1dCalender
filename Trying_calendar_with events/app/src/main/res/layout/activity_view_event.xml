@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_back_to_basic"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_clear"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/eventTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:layout_marginTop="64dp"
+            android:fontFamily="serif-monospace"
+            android:text="@string/event_title"
+            android:textColor="#eb177a"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_back_to_basic" />
+
+        <TextView
+            android:id="@+id/ddmmyyyyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="serif-monospace"
+            android:text="@string/ddmmyyyy"
+            android:textColor="#eb177a"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/eventTitleTextView" />
+
+        <TextView
+            android:id="@+id/detailsTextView"
+            android:layout_width="287dp"
+            android:layout_height="199dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:fontFamily="serif-monospace"
+            android:text="@string/details"
+            android:textColor="#eb177a"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageViewDetails" />
+
+        <Button
+            android:id="@+id/btn_edit_details"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewDetails"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_action_news"
+            android:contentDescription="@string/todo"
+            app:layout_constraintEnd_toStartOf="@+id/detailsTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewDDMMYY" />
+
+        <ImageView
+            android:id="@+id/imageViewDDMMYY"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_date_range"
+            app:layout_constraintEnd_toStartOf="@+id/detailsTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventTitleTextView"
+            android:contentDescription="@string/todo" />
+
+        <ImageView
+            android:id="@+id/imageViewEventTitle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="64dp"
+            android:background="@drawable/ic_stop"
+            app:layout_constraintEnd_toStartOf="@+id/eventTitleTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_back_to_basic"
+            android:contentDescription="TODO" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
