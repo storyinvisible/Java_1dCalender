@@ -7,7 +7,9 @@ import android.app.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -50,16 +52,27 @@ public class Create_packages extends AppCompatActivity {
         setContentView(R.layout.activity_create_packages);
         DatabaseReference myRef = database.getReference("Community");
         packages_for= findViewById(R.id.packages_community);
-      /*  myRef.child("Micro-Community").addListenerForSingleValueEvent(new ValueEventListener() {
+        final List<String> commnity_list = new ArrayList<>();
+        final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, commnity_list);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        packages_for.setAdapter(spinnerAdapter);
+        myRef.child("Micro community").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, android.R.id.);
+
+
 
                 for(DataSnapshot choices:dataSnapshot.getChildren()){
                     String choice = choices.getKey();
-
+                    commnity_list.add(choice);
+                    spinnerAdapter.notifyDataSetChanged();
+                    Log.i("The children",choice);
 
                 }
+
+
+
+
 
             }
 
@@ -68,7 +81,7 @@ public class Create_packages extends AppCompatActivity {
 
             }
         });
-*/
+
         startdate =findViewById(R.id.start_date);
         enddate= findViewById(R.id.end_date);
         start_time = findViewById(R.id.start_time);
