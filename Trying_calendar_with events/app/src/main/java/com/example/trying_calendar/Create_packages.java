@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Dialog;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,15 +46,23 @@ public class Create_packages extends AppCompatActivity {
     int currentMinute;
     String amPm;
     Spinner packages_for;
+    Spinner package_day;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    Button create_packages;
+    String start_date_str;
+    String end_date_str;
+    String package_name;
+    String weekdays;
+    String start_time_str;
+    String end_time_str;
+    String community;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_packages);
-        DatabaseReference myRef = database.getReference("Community");
+        final DatabaseReference myRef = database.getReference("Community");
         DatabaseReference mDatabase = database.getReference("Users");
 
         mDatabase.child("zhangshaozuo").child("Community").child("SUTD").child("Mico-community").setValue("istd");
@@ -65,8 +75,6 @@ public class Create_packages extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
-
                 for(DataSnapshot choices:dataSnapshot.getChildren()){
                     String choice = choices.getKey();
                     commnity_list.add(choice);
@@ -74,23 +82,18 @@ public class Create_packages extends AppCompatActivity {
                     Log.i("The children",choice);
 
                 }
-
-
-
-
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
+        create_packages= findViewById(R.id.create_packages);
         startdate =findViewById(R.id.start_date);
         enddate= findViewById(R.id.end_date);
         start_time = findViewById(R.id.start_time);
         end_time= findViewById(R.id.end_time);
+        package_day= findViewById(R.id.packageday);
         startdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +188,23 @@ public class Create_packages extends AppCompatActivity {
         });
 
 
+    create_packages.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            HashMap<String,String> packages_details= new HashMap<>();
+            start_date_str= startdate.getText().toString();
+            end_date_str= enddate.getText().toString();
+            end_time_str= end_time.getText().toString();
+            start_time_str= start_time.getText().toString();
+            community= packages_for.getSelectedItem().toString();
+            weekdays=  package_day.getSelectedItem().toString();
+            packages_details.put("Start Date", start_date_str);
+            packages_details.put("End date", end_date_str);
+            packages_details.put("Weekday", weekdays);
+            myRef.child("Dance like a king").setValue(packages_details);
 
+        }
+    });
 
 
     }

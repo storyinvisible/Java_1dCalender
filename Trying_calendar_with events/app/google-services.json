@@ -179,6 +179,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "270682307622-lms6h7fl4dl60ahndtcmh5q1lrea9ek1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trying_calendar",
+            "certificate_hash": "50355cda3c3f25b51009e5974cbe38b6e27c3e9b"
+          }
+        },
+        {
           "client_id": "270682307622-ks6b48olpmjr1ufckgvilpr04d7smirl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -1,23 +1,31 @@
 package com.example.trying_calendar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class NewsFeedActivity extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_nav);
+        setContentView(R.layout.activity_newsfeed);
+
+        TextView text = findViewById(R.id.textView5);
+        text.setText("This is the News Feed!");
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
         //highlight menu items when clicked
@@ -31,15 +39,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.newsfeed:
-                        Intent intent1 = new Intent(MainActivity.this, NewsFeedActivity.class);
+                        Intent intent1 = new Intent(NewsFeedActivity.this, NewsFeedActivity.class);
                         startActivity(intent1);
                         return true;
                     case R.id.calendar:
-                        Intent intent2 = new Intent(MainActivity.this, CalendarActivity.class);
+                        Intent intent2 = new Intent(NewsFeedActivity.this, CalendarActivity.class);
                         startActivity(intent2);
                         return true;
                     case R.id.packages:
-                        Intent intent3 = new Intent(MainActivity.this, PackageActivity.class);
+                        Intent intent3 = new Intent(NewsFeedActivity.this, PackageActivity.class);
                         startActivity(intent3);
                         return true;
                 }
@@ -60,12 +68,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.o_create_packages:
-                Intent create_packages = new Intent(MainActivity.this, Create_packages.class);
+                Intent create_packages = new Intent(NewsFeedActivity.this, Create_packages.class);
                 startActivity(create_packages);
                 return true;
             case R.id.o_create_event:
-                Intent create_event = new Intent(MainActivity.this,Create_Event.class);
-                startActivity(create_event);;
+                Intent create_event = new Intent(NewsFeedActivity.this,Create_Event.class);
+                startActivity(create_event);
                 return true;
             case R.id.o_settings:
                 Toast.makeText(this, "Go To Settings", Toast.LENGTH_SHORT).show();

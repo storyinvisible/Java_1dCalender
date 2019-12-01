@@ -13,15 +13,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Create_packages"></activity>
-        <activity android:name=".Basic_Activity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".Login_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Create_packages" />
+        <activity android:name=".Welcome_Page">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".NewsFeedActivity" />
+        <activity android:name=".PackageActivity" />
         <activity android:name=".View_Event_Details" />
         <activity android:name=".Create_Event" />
     </application>

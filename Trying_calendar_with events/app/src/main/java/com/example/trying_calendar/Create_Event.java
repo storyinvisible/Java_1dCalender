@@ -6,7 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,14 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.alamkanak.weekview.WeekView;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 import java.util.Calendar;
 
 public class Create_Event extends AppCompatActivity {
@@ -48,7 +39,6 @@ public class Create_Event extends AppCompatActivity {
     int currentHour;
     int currentMinute;
     String amPm;
-    String user;
 
     String event, details;
 
@@ -65,16 +55,13 @@ public class Create_Event extends AppCompatActivity {
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference mDatabase = database.getReference("Users");
-
 
         //ToDo: BACK BUTTON task
         btn_back_to_basic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("create events", "im trying to go back to the weekly calendar");
-                Intent intent = new Intent(Create_Event.this, Basic_Activity.class);
+                Intent intent = new Intent(Create_Event.this, Welcome_Page.class);
                 startActivity(intent);
             }
         });
@@ -85,7 +72,6 @@ public class Create_Event extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 event = eventEdit.getText().toString();
-                mDatabase.child("1003784").setValue("event");
                 details = detailsEdit.getText().toString();
 
                 showToast(event);

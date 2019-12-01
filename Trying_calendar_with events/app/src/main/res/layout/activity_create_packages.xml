@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Create_packages">
-
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -21,66 +19,64 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="Name of the Packages"
-                android:textSize="30dp"
                 android:layout_marginTop="5dp"
                 ></TextView>
             <EditText
                 android:id="@+id/packagname"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:hint="Packages Name"
-                android:textSize="30dp"
                 android:layout_marginTop="5dp"
                 ></EditText>
             <Spinner
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:id="@+id/packages_community"
                 ></Spinner>
 
             <TextView
                 android:id="@+id/start_date"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="30dp"
                 android:text="Choose start Date"
                 android:layout_marginTop="10dp"
-                android:textSize="30dp"></TextView>
+                ></TextView>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="30dp"
                 android:id="@+id/end_date"
                 android:text="Choose end date"
-                android:textSize="30dp"
+
 
                 ></TextView>
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/packageday"
                 android:prompt="@string/weekday"
                 android:entries="@array/weekday"
-                android:textSize="30dp"></Spinner>
+                ></Spinner>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/start_time"
                 android:text="Click to choose your Start time"
-                android:textSize="30dp"
+
                 ></TextView>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/end_time"
                 android:text="Click to choose your Start time"
-                android:textSize="30dp"
+
                 ></TextView>
         </LinearLayout>
     </ScrollView>
