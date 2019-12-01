@@ -21,6 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alamkanak.weekview.WeekView;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -45,6 +48,7 @@ public class Create_Event extends AppCompatActivity {
     int currentHour;
     int currentMinute;
     String amPm;
+    String user;
 
     String event, details;
 
@@ -61,6 +65,9 @@ public class Create_Event extends AppCompatActivity {
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mDatabase = database.getReference("Users");
+
 
         //ToDo: BACK BUTTON task
         btn_back_to_basic.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +85,7 @@ public class Create_Event extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 event = eventEdit.getText().toString();
+                mDatabase.child("1003784").setValue("event");
                 details = detailsEdit.getText().toString();
 
                 showToast(event);

@@ -43,14 +43,19 @@ public class Create_packages extends AppCompatActivity {
     int currentHour;
     int currentMinute;
     String amPm;
-    Spinner packages_for;FirebaseDatabase database = FirebaseDatabase.getInstance();
+    Spinner packages_for;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_packages);
         DatabaseReference myRef = database.getReference("Community");
+        DatabaseReference mDatabase = database.getReference("Users");
+
+        mDatabase.child("zhangshaozuo").child("Community").child("SUTD").child("Mico-community").setValue("istd");
         packages_for= findViewById(R.id.packages_community);
         final List<String> commnity_list = new ArrayList<>();
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, commnity_list);
