@@ -24,5 +24,4 @@
         app:todayBackgroundColor="#1848adff"
         app:headerColumnBackground="#ffffffff"/>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Basic_Activity"></activity>
+        <activity android:name=".Create_packages"></activity>
+        <activity android:name=".Basic_Activity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,9 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="View_Event_Details"
-            />
-        <activity android:name="Create_Event"/>
+        <activity android:name=".View_Event_Details" />
+        <activity android:name=".Create_Event" />
     </application>
 
 </manifest>
