@@ -11,9 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
-
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
 
-
+        firebaseAuth=FirebaseAuth.getInstance();
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -71,7 +72,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Go To Settings", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.o_logout:
-                Toast.makeText(this, "Go To Logout", Toast.LENGTH_SHORT).show();
+
+                firebaseAuth.signOut();
+                finish();
+                Intent intent = new Intent(MainActivity.this, Login_Activity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

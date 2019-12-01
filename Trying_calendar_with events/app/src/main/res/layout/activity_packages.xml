@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:text="Name of the Packages"
                     android:textSize="30dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="60dp"
                     ></TextView>
                 <EditText
                     android:id="@+id/packagname"

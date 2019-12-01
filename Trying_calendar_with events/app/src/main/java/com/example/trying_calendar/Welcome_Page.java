@@ -17,7 +17,7 @@ public class Welcome_Page extends AppCompatActivity {
         goToCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Welcome_Page.this, MainActivity.class);
+                Intent intent = new Intent(Welcome_Page.this, Login_Activity.class);
                 startActivity(intent);
             }
         });
