@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Create_Event extends AppCompatActivity {
@@ -37,6 +40,7 @@ public class Create_Event extends AppCompatActivity {
     TextView date_to;
     TextView fromTimeEdit;
     TextView toTimeEdit;
+    TextView invitefriends;
     EditText detailsEdit;
     Button btn_ok;
     DatePickerDialog.OnDateSetListener mDateSetListener1;
@@ -49,6 +53,9 @@ public class Create_Event extends AppCompatActivity {
     String amPm;
     /**Firebase instance*/
     FirebaseDatabase database=FirebaseDatabase.getInstance();
+    /**Recycler View*/
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
 
     String event, details;
 
@@ -65,7 +72,22 @@ public class Create_Event extends AppCompatActivity {
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
+        invitefriends=findViewById(R.id.tvInvite);
         DatabaseReference mdatabaseRef=database.getReference("User");
+        /**Recycler View starts here*/
+        recyclerView=findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final ArrayList<Listed_user> userToInvite=new ArrayList<>();
+        /*
+        for (int i=0;i<10;i++) {
+            Listed_user listed_user=new Listed_user("Joson"+(i+1),"Student");
+            userToInvite.add(listed_user);
+
+        }
+        //Log.i("Shaozuo",String.valueOf(userToInvite.size()));
+         */
+
 
         //TODO: DatabaseReference get user name
         mdatabaseRef.addValueEventListener(new ValueEventListener() {
@@ -74,6 +96,16 @@ public class Create_Event extends AppCompatActivity {
                if (dataSnapshot.exists()) {
                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                        Log.i("Shaozuo",snapshot.child("Name Node").getValue().toString());
+                       try {
+                           Listed_user listed_user=new Listed_user(
+                                   snapshot.child("Name Node").getValue().toString(),snapshot.child("role").getValue().toString());
+                           userToInvite.add(listed_user);
+                           adapter=new UserAdaptor(userToInvite,Create_Event.this);
+                           recyclerView.setAdapter(adapter);
+                       } catch (NullPointerException ex) {
+                           Log.i("Shaozuo",ex.getMessage());
+                       }
+
                    }
                }
 
@@ -82,7 +114,6 @@ public class Create_Event extends AppCompatActivity {
            public void onCancelled(@NonNull DatabaseError databaseError) {
            }
         });
-
 
         //ToDo: BACK BUTTON task
         btn_back_to_basic.setOnClickListener(new View.OnClickListener() {
