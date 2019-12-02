@@ -72,9 +72,14 @@ public class RegistrationActivity extends AppCompatActivity {
                                     startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                                     role=findViewById(roleGroup.getCheckedRadioButtonId());
                                     pillar=findViewById(pillarGroup.getCheckedRadioButtonId());
-                                    Log.i("Shaozuo",role.getText().toString());
-                                    Log.i("Shaozuo",pillar.getText().toString());
-                                    mDatabase.child("User").child(str_studentid).child("Community").child(pillar.getText().toString()).setValue(role.getText().toString());
+                                    //Log.i("Shaozuo",role.getText().toString());
+                                    //Log.i("Shaozuo",pillar.getText().toString());
+                                    mDatabase.child("User").child(str_studentid).child("Community").setValue("SUTD");
+                                    mDatabase.child("User").child(str_studentid).child("pillar").setValue(pillar.getText().toString());
+                                    mDatabase.child("User").child(str_studentid).child("role").setValue(role.getText().toString());
+                                    mDatabase.child("User").child(str_studentid).child("Name Node").setValue(emailToName(email.getText().toString()));
+
+
                                 } else
                                     Toast.makeText(RegistrationActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
                             }
@@ -91,7 +96,8 @@ public class RegistrationActivity extends AppCompatActivity {
         signupback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegistrationActivity.this,MainActivity.class));
+
+                startActivity(new Intent(RegistrationActivity.this,Login_Activity.class));
             }
         });
 
@@ -109,4 +115,13 @@ public class RegistrationActivity extends AppCompatActivity {
             return false;
         } return true;
     }
+    public String emailToName(String email) {
+        String name="";
+        int index=email.indexOf("@");
+        for (int i=0;i<index;i++) {
+            name=name+email.charAt(i);
+        }
+        return name;
+    }
+
 }

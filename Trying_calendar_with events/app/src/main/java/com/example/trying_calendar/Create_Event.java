@@ -16,8 +16,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -39,6 +47,8 @@ public class Create_Event extends AppCompatActivity {
     int currentHour;
     int currentMinute;
     String amPm;
+    /**Firebase instance*/
+    FirebaseDatabase database=FirebaseDatabase.getInstance();
 
     String event, details;
 
@@ -55,6 +65,24 @@ public class Create_Event extends AppCompatActivity {
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
+        DatabaseReference mdatabaseRef=database.getReference("User");
+
+        //TODO: DatabaseReference get user name
+        mdatabaseRef.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               if (dataSnapshot.exists()) {
+                   for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                       Log.i("Shaozuo",snapshot.child("Name Node").getValue().toString());
+                   }
+               }
+
+           }
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+           }
+        });
+
 
         //ToDo: BACK BUTTON task
         btn_back_to_basic.setOnClickListener(new View.OnClickListener() {
