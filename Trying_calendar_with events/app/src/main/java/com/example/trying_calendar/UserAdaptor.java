@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,9 +31,15 @@ public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.textViewUser.setText(userList.get(position).getUsername());
         holder.textViewDesc.setText(userList.get(position).getDesc());
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"You invited "+userList.get(position).getUsername(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -43,11 +51,13 @@ public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewUser;
         public TextView textViewDesc;
+        public LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewUser=itemView.findViewById(R.id.tvUsername);
             textViewDesc=itemView.findViewById(R.id.tvDesc);
+            linearLayout=itemView.findViewById(R.id.cardviewLinearLayout);
         }
     }
 }
