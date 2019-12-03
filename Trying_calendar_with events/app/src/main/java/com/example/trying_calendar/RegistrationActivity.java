@@ -74,10 +74,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                     pillar=findViewById(pillarGroup.getCheckedRadioButtonId());
                                     //Log.i("Shaozuo",role.getText().toString());
                                     //Log.i("Shaozuo",pillar.getText().toString());
-                                    mDatabase.child("User").child(str_studentid).child("Community").setValue("SUTD");
-                                    mDatabase.child("User").child(str_studentid).child("pillar").setValue(pillar.getText().toString());
-                                    mDatabase.child("User").child(str_studentid).child("role").setValue(role.getText().toString());
-                                    mDatabase.child("User").child(str_studentid).child("Name Node").setValue(emailToName(email.getText().toString()));
+                                    mDatabase.child("User").child(emailToName(email.getText().toString())).child("Community").setValue(pillar.getText().toString());
+                                    mDatabase.child("User").child(emailToName(email.getText().toString())).child("role").setValue(role.getText().toString());
+                                    mDatabase.child("User").child(emailToName(email.getText().toString())).child("Student ID").setValue(str_studentid);
+                                    mDatabase.child("User").child(emailToName(email.getText().toString())).
+                                            child("Name Node").setValue(emailToName(email.getText().toString()));
+                                    //I still add this Name Node(has value) because when inviting people in create_event, I detect the value change(not child change)
 
 
                                 } else
