@@ -14,6 +14,7 @@ import java.util.List;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -68,7 +69,7 @@ public class Create_packages extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_packages);
-
+        final String MICRO_COMMUNITY = "Micro community";
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
         String email = user_firebase.getEmail().toString();
@@ -215,11 +216,14 @@ public class Create_packages extends AppCompatActivity {
             packages_details.put("Start Time", start_time_str);
             packages_details.put("End time", end_time_str);
             packages_details.put("community", community);
+            myRef.child(MICRO_COMMUNITY).child(community).setValue(package_name_str);
             myRef.child("Packages").child(package_name_str).setValue(packages_details);
             DatabaseReference myRef_user = database.getReference("User/"+user);
             HashMap<String,Object> package_map = new HashMap<>();
             package_map.put(package_name_str,package_name_str);
             myRef_user.child("Packages").updateChildren(package_map);
+            Intent intent = new Intent(Create_packages.this, CalendarActivity.class);
+            startActivity(intent);
 
         }
     });

@@ -31,8 +31,7 @@ public class PackageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packages);
         DatabaseReference mref= database.getReference("users");
-        TextView text = findViewById(R.id.textView5);
-        text.setText("These are the Packages!");
+
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         final DatabaseReference myRef = database.getReference("Community");
