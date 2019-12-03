@@ -3,9 +3,14 @@ package com.example.trying_calendar;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,17 +27,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class PackageActivity extends AppCompatActivity {
+    final String PACKAGES = "Packages";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     String current_user;
+    LinearLayout Packages_layout;
+    int check_box_id = 1000;
+    int check_box_count=0;
+    ArrayList<String> package_to_import= new ArrayList<String>();
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packages);
         DatabaseReference mref= database.getReference("users");
-
-
+        Packages_layout= findViewById(R.id.packages_list);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         final DatabaseReference myRef = database.getReference("Community");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -41,17 +52,24 @@ public class PackageActivity extends AppCompatActivity {
             String name = user.getDisplayName();
             String email = user.getEmail();
             int atindex= email.indexOf("@");
-            current_user= email.substring(0,atindex);
+            current_user= new RegistrationActivity().emailToName(email);
         }
+
 
         //highlight menu items when clicked
         Menu menu = bottomNav.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
-        mref.child(current_user).child("Community").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child(PACKAGES).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                ArrayList<String> package_list= new ArrayList<>();
+                for(DataSnapshot choices:dataSnapshot.getChildren()) {
+                    String package_names = choices.getKey();
+                    package_list.add(package_names);
+                    Log.i("Packages Imported", package_names);
+                }
+                PackageActivity.this.add_checkbox(package_list);
             }
 
             @Override
@@ -81,7 +99,23 @@ public class PackageActivity extends AppCompatActivity {
             }
         });
     }
+    public void add_checkbox(ArrayList<String> package_list){
 
+        for(String packages: package_list){
+            final CheckBox box= new CheckBox(this);
+            box.setId(check_box_id);
+            check_box_id++;
+            box.setText(packages);
+            box.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    package_to_import.add(box.getText().toString());
+                }
+            });
+            Packages_layout.addView(box);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

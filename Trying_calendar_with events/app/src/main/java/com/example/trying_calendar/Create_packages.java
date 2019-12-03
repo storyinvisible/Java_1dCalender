@@ -216,7 +216,7 @@ public class Create_packages extends AppCompatActivity {
             packages_details.put("Start Time", start_time_str);
             packages_details.put("End time", end_time_str);
             packages_details.put("community", community);
-            myRef.child(MICRO_COMMUNITY).child(community).setValue(package_name_str);
+            myRef.child(MICRO_COMMUNITY).child(community).child(package_name_str).setValue(package_name_str);
             myRef.child("Packages").child(package_name_str).setValue(packages_details);
             DatabaseReference myRef_user = database.getReference("User/"+user);
             HashMap<String,Object> package_map = new HashMap<>();
