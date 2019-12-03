@@ -95,8 +95,8 @@ public class Create_Event extends AppCompatActivity {
            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                if (dataSnapshot.exists()) {
                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                       Log.i("Shaozuo",snapshot.child("Name Node").getValue().toString());
                        try {
+                           Log.i("Shaozuo",snapshot.child("Name Node").getValue().toString());
                            Listed_user listed_user=new Listed_user(
                                    snapshot.child("Name Node").getValue().toString(),snapshot.child("role").getValue().toString());
                            userToInvite.add(listed_user);
