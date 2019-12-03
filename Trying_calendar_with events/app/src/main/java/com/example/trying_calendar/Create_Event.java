@@ -31,6 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -282,7 +285,9 @@ public class Create_Event extends AppCompatActivity {
                 event_details.put("time_from", start_time_str);
                 event_details.put("time_to", end_time_str);
                 event_details.put("details", details);
-                mdatabaseRef.child(user).child(event).setValue(event_details);
+                HashMap<String, Object> a_new_event = new HashMap<>();
+                a_new_event.put(event,event_details);
+                mdatabaseRef.child(user).child("event").updateChildren(a_new_event);
 
 
 
