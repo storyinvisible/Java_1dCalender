@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,7 @@ public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewUser;
+        public CheckBox textViewUser;
         public TextView textViewDesc;
 
         public ViewHolder(@NonNull View itemView) {

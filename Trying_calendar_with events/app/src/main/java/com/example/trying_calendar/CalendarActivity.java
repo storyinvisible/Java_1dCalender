@@ -16,9 +16,17 @@ import androidx.annotation.Nullable;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class CalendarActivity extends Base_Calendar {
@@ -61,9 +69,45 @@ public class CalendarActivity extends Base_Calendar {
         });
     }
 
+    //take event out and put in canlender
+
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         // Populate the week view with some events.
+        FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
+        FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
+        String email = user_firebase.getEmail().toString();
+        String user = new RegistrationActivity().emailToName(email);
+
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("User"+"/"+user+"/"+"event");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            ArrayList<String> events_list = new ArrayList<>();
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot event : dataSnapshot.getChildren()){
+                    events_list.add(event.toString());
+                }
+                for(String event:events_list){
+                    DatabaseReference mEvent = mDatabase.child(event);
+                    HashMap<String,String> one_event_with_details = dataSnapshot.child(event).getValue(HashMap.class);
+                    one_event_with_details.get("");
+                    //now the hashmap has detials of String event,can diaplay on screen
+                }
+
+
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
         Calendar startTime = Calendar.getInstance();

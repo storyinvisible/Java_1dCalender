@@ -27,6 +27,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +45,7 @@ public class Create_packages extends AppCompatActivity {
     TextView enddate;
     TextView start_time;
     TextView end_time;
+    TextView package_name;
     int currentHour;
     int currentMinute;
     String amPm;
@@ -51,21 +55,26 @@ public class Create_packages extends AppCompatActivity {
     Button create_packages;
     String start_date_str;
     String end_date_str;
-    String package_name;
     String weekdays;
     String start_time_str;
     String end_time_str;
     String community;
+    String package_name_str;
+    FirebaseAuth firebaseAuth;
+    String user = "1000000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_packages);
-        final DatabaseReference myRef = database.getReference("Community");
-        DatabaseReference mDatabase = database.getReference("Users");
 
-        mDatabase.child("zhangshaozuo").child("Community").child("SUTD").child("Mico-community").setValue("istd");
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
+        String email = user_firebase.getEmail().toString();
+        user = new RegistrationActivity().emailToName(email);
+        final DatabaseReference myRef = database.getReference("Community");
+
         packages_for= findViewById(R.id.packages_community);
         final List<String> commnity_list = new ArrayList<>();
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, commnity_list);
@@ -75,11 +84,11 @@ public class Create_packages extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot choices:dataSnapshot.getChildren()){
-                    String choice = choices.getKey();
-                    commnity_list.add(choice);
-                    spinnerAdapter.notifyDataSetChanged();
-                    Log.i("The children",choice);
+                    for(DataSnapshot choices:dataSnapshot.getChildren()){
+                        String choice = choices.getKey();
+                        commnity_list.add(choice);
+                        spinnerAdapter.notifyDataSetChanged();
+                        Log.i("The children",choice);
 
                 }
             }
@@ -94,6 +103,7 @@ public class Create_packages extends AppCompatActivity {
         start_time = findViewById(R.id.start_time);
         end_time= findViewById(R.id.end_time);
         package_day= findViewById(R.id.packageday);
+        package_name = findViewById(R.id.packagname);
         startdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,10 +208,18 @@ public class Create_packages extends AppCompatActivity {
             start_time_str= start_time.getText().toString();
             community= packages_for.getSelectedItem().toString();
             weekdays=  package_day.getSelectedItem().toString();
+            package_name_str = package_name.getText().toString();
             packages_details.put("Start Date", start_date_str);
             packages_details.put("End date", end_date_str);
             packages_details.put("Weekday", weekdays);
-            myRef.child("Dance like a king").setValue(packages_details);
+            packages_details.put("Start Time", start_time_str);
+            packages_details.put("End time", end_time_str);
+            packages_details.put("community", community);
+            myRef.child("Packages").child(package_name_str).setValue(packages_details);
+            DatabaseReference myRef_user = database.getReference("User/"+user);
+            HashMap<String,Object> package_map = new HashMap<>();
+            package_map.put(package_name_str,package_name_str);
+            myRef_user.child("Packages").updateChildren(package_map);
 
         }
     });

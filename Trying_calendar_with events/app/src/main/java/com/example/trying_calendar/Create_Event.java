@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Create_Event extends AppCompatActivity {
 
@@ -51,6 +54,13 @@ public class Create_Event extends AppCompatActivity {
     int currentHour;
     int currentMinute;
     String amPm;
+    String start_date_str;
+    String end_date_str;
+    String start_time_str;
+    String end_time_str;
+    String user = "1000000";
+    FirebaseAuth firebaseAuth;
+
     /**Firebase instance*/
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     /**Recycler View*/
@@ -73,7 +83,7 @@ public class Create_Event extends AppCompatActivity {
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
         invitefriends=findViewById(R.id.tvInvite);
-        DatabaseReference mdatabaseRef=database.getReference("User");
+        final DatabaseReference mdatabaseRef=database.getReference("User");
         /**Recycler View starts here*/
         recyclerView=findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -88,6 +98,13 @@ public class Create_Event extends AppCompatActivity {
         //Log.i("Shaozuo",String.valueOf(userToInvite.size()));
          */
 
+        //get current user
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
+        String email = user_firebase.getEmail().toString();
+        user = new RegistrationActivity().emailToName(email);
+
+
 
         //TODO: DatabaseReference get user name
         mdatabaseRef.addValueEventListener(new ValueEventListener() {
@@ -99,9 +116,11 @@ public class Create_Event extends AppCompatActivity {
                        try {
                            Listed_user listed_user=new Listed_user(
                                    snapshot.child("Name Node").getValue().toString(),snapshot.child("role").getValue().toString());
-                           userToInvite.add(listed_user);
-                           adapter=new UserAdaptor(userToInvite,Create_Event.this);
-                           recyclerView.setAdapter(adapter);
+                          // userToInvite.add(listed_user);
+                           //adapter=new UserAdaptor(userToInvite,Create_Event.this);
+                           //recyclerView.setAdapter(adapter);
+                           openDialog();
+
                        } catch (NullPointerException ex) {
                            Log.i("Shaozuo",ex.getMessage());
                        }
@@ -248,10 +267,39 @@ public class Create_Event extends AppCompatActivity {
             }
         });
 
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String,String> event_details= new HashMap<>();
+                start_date_str = date_from.getText().toString();
+                end_date_str = date_to.getText().toString();
+                start_time_str = fromTimeEdit.getText().toString();
+                end_time_str = toTimeEdit.getText().toString();
+                event = eventEdit.getText().toString();
+                details = detailsEdit.getText().toString();
+                event_details.put("date_from", start_date_str);
+                event_details.put("date_to", end_date_str);
+                event_details.put("time_from", start_time_str);
+                event_details.put("time_to", end_time_str);
+                event_details.put("details", details);
+                mdatabaseRef.child(user).child(event).setValue(event_details);
+
+
+
+                showToast(event);
+                showToast(details);
+
+
+            }
+        });
+
     }
 
     private void showToast(String text) {
         Toast.makeText(Create_Event.this, text, Toast.LENGTH_SHORT).show();
+    }
+    public void openDialog(){
+
     }
 
 
