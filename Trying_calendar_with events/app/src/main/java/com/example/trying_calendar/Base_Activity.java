@@ -56,7 +56,7 @@ public abstract class Base_Activity extends AppCompatActivity
         setupDateTimeInterpreter(false);
 
     }
-    private void setupDateTimeInterpreter(final boolean shortDate) {
+    protected void setupDateTimeInterpreter(final boolean shortDate) {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(Calendar date) {

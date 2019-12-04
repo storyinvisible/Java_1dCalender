@@ -52,7 +52,7 @@ public abstract class Base_Calendar extends AppCompatActivity
 
     }
 
-    private void setupDateTimeInterpreter(final boolean shortDate) {
+    protected void setupDateTimeInterpreter(final boolean shortDate) {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(Calendar date) {
@@ -97,6 +97,9 @@ public abstract class Base_Calendar extends AppCompatActivity
         Toast.makeText(this, "Empty view pressed: " + getEventTitle(time),
                 Toast.LENGTH_SHORT).show();
 
+    }
+    public WeekView getWeekView() {
+        return mWeekView;
     }
 
 }

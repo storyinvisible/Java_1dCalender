@@ -72,8 +72,11 @@ public class Create_packages extends AppCompatActivity {
         final String MICRO_COMMUNITY = "Micro community";
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
-        String email = user_firebase.getEmail().toString();
-        user = new RegistrationActivity().emailToName(email);
+        if (user_firebase!=null){
+            String email = user_firebase.getEmail().toString();
+            user = new RegistrationActivity().emailToName(email);
+        }
+
         final DatabaseReference myRef = database.getReference("Community");
 
         packages_for= findViewById(R.id.packages_community);

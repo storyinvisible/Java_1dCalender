@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -25,9 +27,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PackageActivity extends AppCompatActivity {
     final String PACKAGES = "Packages";
@@ -36,17 +40,20 @@ public class PackageActivity extends AppCompatActivity {
     LinearLayout Packages_layout;
     int check_box_id = 1000;
     int check_box_count=0;
-    ArrayList<String> package_to_import= new ArrayList<String>();
+    Button add_packages;
+    Query query;
+    HashMap<String,String> package_to_import= new HashMap<String, String>();
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packages);
-        DatabaseReference mref= database.getReference("users");
+        final DatabaseReference mref= database.getReference("users");
         Packages_layout= findViewById(R.id.packages_list);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         final DatabaseReference myRef = database.getReference("Community");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        add_packages=findViewById(R.id.add_packages);
         if (user != null) {
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
@@ -66,6 +73,7 @@ public class PackageActivity extends AppCompatActivity {
                 ArrayList<String> package_list= new ArrayList<>();
                 for(DataSnapshot choices:dataSnapshot.getChildren()) {
                     String package_names = choices.getKey();
+
                     package_list.add(package_names);
                     Log.i("Packages Imported", package_names);
                 }
@@ -77,7 +85,14 @@ public class PackageActivity extends AppCompatActivity {
 
             }
         });
-
+        add_packages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mref.child(current_user).child(PACKAGES).setValue(package_to_import);
+                Intent intent = new Intent(PackageActivity.this, CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -110,7 +125,13 @@ public class PackageActivity extends AppCompatActivity {
             box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    package_to_import.add(box.getText().toString());
+                    if(isChecked) {
+                        package_to_import.put(box.getText().toString(),box.getText().toString());
+
+                    }
+                    else{
+                        package_to_import.remove(box.getText().toString());
+                    }
                 }
             });
             Packages_layout.addView(box);
