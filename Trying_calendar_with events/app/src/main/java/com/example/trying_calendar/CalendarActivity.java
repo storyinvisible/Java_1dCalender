@@ -50,7 +50,7 @@ public class CalendarActivity extends Base_Calendar  {
     private WeekView mWeekView;
     FirebaseAuth firebaseAuth;
     DatabaseReference mUserEventReference;
-    private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+    HashMap <String, WeekViewEvent> eventHashMap= new HashMap<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,13 +66,20 @@ public class CalendarActivity extends Base_Calendar  {
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
         mWeekView = (WeekView) findViewById(R.id.weekView);
+        update_events();
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+                List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+                for(Map.Entry<String, WeekViewEvent> entry: eventHashMap.entrySet()){
+                    if (eventMatches(entry.getValue(), newYear, newMonth)) {
+                        events.add(entry.getValue()) ;
+                    }
+                }
                 return events;
             }
         });
-        update_events();
+
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
         mWeekView.setNumberOfVisibleDays(5);
@@ -140,7 +147,9 @@ public class CalendarActivity extends Base_Calendar  {
                 Log.i("The calendar event date",strDate);
                 WeekViewEvent single_event = new WeekViewEvent(1, entry.getKey() , calendar_start,calendar_end);
                 Log.i("The event details",single_event.toString());
-                events.add(single_event);
+                if(eventHashMap.get(entry.getKey())==null) {
+                    eventHashMap.put(entry.getKey(), single_event);
+                }
                 if (one_event_with_details != null) {
                     Toast.makeText(CalendarActivity.this, "every thing is good!!!!", Toast.LENGTH_SHORT).show();
 
@@ -151,7 +160,7 @@ public class CalendarActivity extends Base_Calendar  {
 
             }
             mWeekView.notifyDatasetChanged();
-            mWeekView.invalidate();
+
         }
 
             @Override
@@ -167,15 +176,17 @@ public class CalendarActivity extends Base_Calendar  {
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         // Populate the week view with some events.
-        FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
-        FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
-        String email = user_firebase.getEmail().toString();
-        String user = new RegistrationActivity().emailToName(email);
 
-
+        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+        for(Map.Entry<String, WeekViewEvent> entry: eventHashMap.entrySet()){
+            if (eventMatches(entry.getValue(), newYear, newMonth)) {
+                events.add(entry.getValue()) ;
+            }
+        }
+        return events;
         //AllDay event
 
-        return events;
+
     }
     public Calendar get_calendar(String datestring){
         Calendar cal = Calendar.getInstance();
@@ -240,6 +251,9 @@ public class CalendarActivity extends Base_Calendar  {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private boolean eventMatches(WeekViewEvent event, int year, int month) {
+        return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }
 }
 
