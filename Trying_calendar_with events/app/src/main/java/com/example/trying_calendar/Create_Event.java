@@ -23,6 +23,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.allyants.chipview.ChipView;
+import com.allyants.chipview.SimpleChipAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -73,6 +75,10 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
     /**Custom Dialog*/
     private TextView tvSelectedChoice;
     private Button btnSelectedChoice;
+    /**Chip View and tag*/
+    ArrayList tags=new ArrayList<String>();
+    ArrayList selectedTags=new ArrayList<String>();
+    private ChipView mChipView;
 
     String event, details;
 
@@ -89,7 +95,6 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
-        invitefriends=findViewById(R.id.tvInvite);
         final DatabaseReference mdatabaseRef=database.getReference("User");
         /**Recycler View starts here*/
         //recyclerView=findViewById(R.id.recyclerview);
@@ -99,6 +104,8 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         /**Custom Dialog*/
         tvSelectedChoice=findViewById(R.id.tvSelectedPeople);
         btnSelectedChoice=findViewById(R.id.btnInvitePeople);
+        /**Chip View starts here*/
+        mChipView=findViewById(R.id.mChipView);
 
 
         //get current user
@@ -330,6 +337,9 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             stringBuilder.append(str+" ");
         }
         tvSelectedChoice.setText(stringBuilder);
+        selectedTags=selectedItemList;
+        SimpleChipAdapter adapter=new SimpleChipAdapter(selectedTags);
+        mChipView.setAdapter(adapter);
     }
 
     @Override
