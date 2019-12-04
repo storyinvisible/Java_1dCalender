@@ -29,6 +29,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,16 +54,23 @@ public class CalendarActivity extends Base_Calendar  {
     private int mWeekViewType = TYPE_SEVEN_DAY_VIEW;
     private WeekView mWeekView;
     FirebaseAuth firebaseAuth;
+    DatabaseReference mUserpackageRef;
     DatabaseReference mUserEventReference;
-    private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+    DatabaseReference mpackageRef;
+    ArrayList<WeekViewEvent> many_events;
+    HashMap <String, WeekViewEvent> eventHashMap= new HashMap<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         firebaseAuth= FirebaseAuth.getInstance();
         FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
         String email = user_firebase.getEmail().toString();
         String user = new RegistrationActivity().emailToName(email);
         mUserEventReference = FirebaseDatabase.getInstance().getReference("User"+"/"+user+"/"+"event");
+        mUserpackageRef = FirebaseDatabase.getInstance().getReference("User"+"/"+user+"/Packages");
+
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
         //highlight menu items when clicked
@@ -66,13 +78,27 @@ public class CalendarActivity extends Base_Calendar  {
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
         mWeekView = (WeekView) findViewById(R.id.weekView);
+        update_events();
+        update_packages();
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+                List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+                for(Map.Entry<String, WeekViewEvent> entry: eventHashMap.entrySet()){
+                    if (eventMatches(entry.getValue(), newYear, newMonth)) {
+                        events.add(entry.getValue()) ;
+                    }
+                }
+                for(WeekViewEvent a_event: many_events){
+                    if (eventMatches(a_event, newYear, newMonth)) {
+                        events.add(a_event) ;
+                    }
+
+                }
                 return events;
             }
         });
-        update_events();
+
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
         mWeekView.setNumberOfVisibleDays(5);
@@ -108,6 +134,132 @@ public class CalendarActivity extends Base_Calendar  {
         });
     }
 
+    public void update_packages(){
+        many_events= new ArrayList<>();
+        mUserpackageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final HashMap<String, Object> package_to_event_all = new HashMap<>();
+                ArrayList <String> packages_list= new ArrayList<>();
+                //get a list with all packages name in
+                for (DataSnapshot package_name : dataSnapshot.getChildren()) {
+                    packages_list.add(package_name.getKey());
+                    package_to_event_all.put(package_name.getKey(), 000000);
+//                    mpackageRef = FirebaseDatabase.getInstance().getReference("Community/Packages").child(package_name.getKey());
+//                    mpackageRef.
+
+
+
+                }
+                //TO DO: for each packages, seprate yi many events
+                for(final String package_name:packages_list){
+                    mpackageRef = FirebaseDatabase.getInstance().getReference("Community/Packages/"+package_name);
+                    mpackageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        HashMap<String, Object> package_with_details = new HashMap<>();
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot one_package_detial : dataSnapshot.getChildren()) {
+
+                                package_with_details.put(one_package_detial.getKey(), one_package_detial.getValue());
+                            }
+
+                            Log.i("hashmap_package", package_with_details.toString());
+                            String package_name = dataSnapshot.getKey().toString();
+
+                            List<String> all_Date_in_a_week_day;
+                            all_Date_in_a_week_day = get_date_of_a_day(package_with_details.get("Start Date").toString(), package_with_details.get("End date").toString(), package_with_details.get("Weekday").toString());
+                            Log.i("date", all_Date_in_a_week_day.toString());
+                            for(String date: all_Date_in_a_week_day){
+                                String date_str = date;
+                                String start_time_str = package_with_details.get("Start Time").toString();
+                                String end_time_str = package_with_details.get("End time").toString();
+                                String start_date = (date_str + " " + start_time_str).replace("-", "/");
+                                String end_date_str = (date_str + " " + end_time_str).replace("-", "/");
+                                Log.i("package_name_1", package_name);
+                                Log.i("times", start_date);
+                                Log.i("times2", end_date_str);
+
+                                Calendar calendar_start = CalendarActivity.this.get_calendar_package(start_date);
+                                Calendar calendar_end = get_calendar_package(end_date_str);
+                                Calendar startTime = Calendar.getInstance();
+                                WeekViewEvent single_event = new WeekViewEvent(1, package_name, calendar_start,calendar_end);
+                                many_events.add(single_event);
+
+                                Log.i("package_name_2", package_name);
+                                if(eventHashMap.get(package_name)==null) {
+                                    eventHashMap.put(package_name, single_event);
+                                    Log.i("package_name_3", package_name);
+                                }else {
+                                    Log.i("package_name_4", package_name);
+
+                                }
+
+
+
+                            }
+                            mWeekView.notifyDatasetChanged();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                }
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    //format should be start = "01/01/2009";end = "12/09/2013"; which_day = "Monday";
+    public List<String> get_date_of_a_day(String start, String end, String which_day ){
+        HashMap<String, Integer> whichday_tiaojian = new HashMap<>();
+        whichday_tiaojian.put("Sunday", DateTimeConstants.SUNDAY);
+        whichday_tiaojian.put("Monday",DateTimeConstants.MONDAY);
+        whichday_tiaojian.put("Tuesday",DateTimeConstants.TUESDAY);
+        whichday_tiaojian.put("Wednesday",DateTimeConstants.WEDNESDAY);
+        whichday_tiaojian.put("Thursday",DateTimeConstants.THURSDAY);
+        whichday_tiaojian.put("Friday",DateTimeConstants.FRIDAY);
+        whichday_tiaojian.put("Saturday",DateTimeConstants.SATURDAY);
+
+        DateTimeFormatter pattern = DateTimeFormat.forPattern("dd/MM/yyyy");
+        DateTime startDate = pattern.parseDateTime(start);
+        DateTime endDate = pattern.parseDateTime(end);
+
+        List<String> fridays = new ArrayList<>();
+        String start_date_pure;
+
+
+        while (startDate.isBefore(endDate)){
+            if ( startDate.getDayOfWeek() == whichday_tiaojian.get(which_day) ){
+                start_date_pure = startDate.toString().split("T")[0];
+
+                fridays.add(start_date_pure);
+            }
+            startDate = startDate.plusDays(1);
+        }
+        Log.i("fridays", fridays.toString());
+        return fridays;
+
+
+
+    }
+
 
     public void update_events() {
 
@@ -118,11 +270,11 @@ public class CalendarActivity extends Base_Calendar  {
                 for (DataSnapshot event : dataSnapshot.getChildren()) {
                     all_event.put(event.getKey(), event.getValue());
                 }
-            Log.i("hashmap", all_event.toString());
+
             for (Map.Entry<String, Object> entry : all_event.entrySet()) {
                 String event_name = entry.getKey();
                 HashMap<String, Object> one_event_with_details = (HashMap<String, Object>) entry.getValue();
-                Log.i("hash value", one_event_with_details.toString());
+
 
 
                 String start_date_str = one_event_with_details.get("date_from").toString();
@@ -133,14 +285,16 @@ public class CalendarActivity extends Base_Calendar  {
                 end_date_str = start_date_str + " " + end_time_str;
                 Calendar calendar_start = CalendarActivity.this.get_calendar(start_date);
                 Calendar calendar_end = get_calendar(end_date_str);
-                Calendar startTime = Calendar.getInstance();
-                Date date = calendar_start.getInstance().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
-                String strDate = dateFormat.format(date);
-                Log.i("The calendar event date",strDate);
+//                Calendar startTime = Calendar.getInstance();
+//                Date date = calendar_start.getInstance().getTime();
+//                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+//                String strDate = dateFormat.format(date);
+//                Log.i("The calendar event date",strDate);
                 WeekViewEvent single_event = new WeekViewEvent(1, entry.getKey() , calendar_start,calendar_end);
                 Log.i("The event details",single_event.toString());
-                events.add(single_event);
+                if(eventHashMap.get(entry.getKey())==null) {
+                    eventHashMap.put(entry.getKey(), single_event);
+                }
                 if (one_event_with_details != null) {
                     Toast.makeText(CalendarActivity.this, "every thing is good!!!!", Toast.LENGTH_SHORT).show();
 
@@ -151,7 +305,7 @@ public class CalendarActivity extends Base_Calendar  {
 
             }
             mWeekView.notifyDatasetChanged();
-            mWeekView.invalidate();
+
         }
 
             @Override
@@ -167,21 +321,37 @@ public class CalendarActivity extends Base_Calendar  {
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         // Populate the week view with some events.
-        FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
-        FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
-        String email = user_firebase.getEmail().toString();
-        String user = new RegistrationActivity().emailToName(email);
 
-
+        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+        for(Map.Entry<String, WeekViewEvent> entry: eventHashMap.entrySet()){
+            if (eventMatches(entry.getValue(), newYear, newMonth)) {
+                events.add(entry.getValue()) ;
+            }
+        }
+        return events;
         //AllDay event
 
-        return events;
+
     }
     public Calendar get_calendar(String datestring){
         Calendar cal = Calendar.getInstance();
         Log.i("The datetime string", datestring);
         try {
             Date date1 = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(datestring);
+
+            cal.setTime(date1);
+        }
+        catch (Exception e){
+            System.out.println("Error occurs when set time ");
+        }
+        return cal;
+    }
+
+    public Calendar get_calendar_package(String datestring){
+        Calendar cal = Calendar.getInstance();
+        Log.i("The datetime string", datestring);
+        try {
+            Date date1 = new SimpleDateFormat("yyyy/MM/dd hh:mm").parse(datestring);
 
             cal.setTime(date1);
         }
@@ -240,6 +410,9 @@ public class CalendarActivity extends Base_Calendar  {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private boolean eventMatches(WeekViewEvent event, int year, int month) {
+        return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }
 }
 
