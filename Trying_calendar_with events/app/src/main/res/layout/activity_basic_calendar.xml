@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:columnGap="4dp"
-            app:dayBackgroundColor="#f5f5f5"
+            app:todayBackgroundColor="#e8ffff"
+            app:dayBackgroundColor="#f7f7f7"
             app:eventTextColor="@android:color/black"
 
             app:headerColumnBackground="#ffffffff"
