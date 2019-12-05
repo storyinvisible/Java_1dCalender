@@ -37,6 +37,7 @@ public class NewsFeedActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference onSchedule_Events;
+    DatabaseReference RSVP_events;
     final ArrayList<Events_details> event_list= new ArrayList<>();
     String current_user;
     ArrayList<Events_details> event_lists=  new ArrayList<>();
@@ -57,7 +58,7 @@ public class NewsFeedActivity extends AppCompatActivity {
         String user = new RegistrationActivity().emailToName(email);
 
         onSchedule_Events= database.getReference().child("User").child(user).child("event");
-
+        RSVP_events= database.getReference().child("User").child(user).child("RSVP events");
 
         newsfeed_view.setAdapter(adaptor);
         newsfeed_view.setLayoutManager(new LinearLayoutManager(NewsFeedActivity.this));
@@ -139,7 +140,7 @@ public class NewsFeedActivity extends AppCompatActivity {
                     String event_name = entry.getKey();
                     HashMap<String, Object> one_event_with_details = (HashMap<String, Object>) entry.getValue();
                     Log.i("hash value", one_event_with_details.toString());
-                    event_list.add(getEvent_box(event_name, one_event_with_details));
+                    event_list.add(getEvent_box(event_name, one_event_with_details,false));
                 }
 
             adaptor.notifyDataSetChanged();
@@ -151,6 +152,33 @@ public class NewsFeedActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void updateRSVPevent(){
+        RSVP_events.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, Object> all_event = new HashMap<>();
+
+                for (DataSnapshot event : dataSnapshot.getChildren()) {
+                    all_event.put(event.getKey(), event.getValue());
+                }
+                Log.i("hashmap", all_event.toString());
+                for (Map.Entry<String, Object> entry : all_event.entrySet()) {
+                    String event_name = entry.getKey();
+                    HashMap<String, Object> one_event_with_details = (HashMap<String, Object>) entry.getValue();
+                    Log.i("hash value", one_event_with_details.toString());
+                    event_list.add(getEvent_box(event_name, one_event_with_details,true));
+                }
+
+                adaptor.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
     public Calendar get_calendar(String datestring){
         Calendar cal = Calendar.getInstance();
@@ -166,14 +194,14 @@ public class NewsFeedActivity extends AppCompatActivity {
         return cal;
     }
 
-    public Events_details getEvent_box(String event_name, HashMap<String, Object> event_details) {
+    public Events_details getEvent_box(String event_name, HashMap<String, Object> event_details,boolean RSVP) {
 
         String start_date_str = event_details.get("date_from").toString();
 
         String start_time_str = event_details.get("time_from").toString();
         String end_time_str = event_details.get("time_to").toString();
         String description = event_details.get("details").toString();
-        Events_details  events_details= new Events_details(event_name,start_date_str,start_time_str,end_time_str,description);
+        Events_details  events_details= new Events_details(event_name,start_date_str,start_time_str,end_time_str,description,RSVP);
         return events_details;
     }
 }

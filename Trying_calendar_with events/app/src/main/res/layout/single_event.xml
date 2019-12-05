@@ -9,19 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/eventcards">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_default_radius"
-        android:id="@+id/cardvieweventname"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/startnendtime"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/eventDescription"/>
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cardview_default_radius"
+            android:id="@+id/cardvieweventname"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/startnendtime"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventDescription"/>
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/RSVP"/>
 </LinearLayout>
 </androidx.cardview.widget.CardView>
