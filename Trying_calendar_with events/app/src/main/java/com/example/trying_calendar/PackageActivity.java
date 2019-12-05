@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +26,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,59 +34,48 @@ import java.util.HashMap;
 public class PackageActivity extends AppCompatActivity {
     final String PACKAGES = "Packages";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference userPackages;
+    DatabaseReference myRef; // To get the event list from the community
     String current_user;
     LinearLayout Packages_layout;
     int check_box_id = 1000;
     int check_box_count=0;
     Button add_packages;
-    Query query;
+
+
     HashMap<String,String> package_to_import= new HashMap<String, String>();
+    final HashMap<String, Object> Unique_event= new HashMap<String, Object>() ;// the event the current suer have
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packages);
-        final DatabaseReference mref= database.getReference("users");
+
         Packages_layout= findViewById(R.id.packages_list);
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        final DatabaseReference myRef = database.getReference("Community");
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         add_packages=findViewById(R.id.add_packages);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        myRef = database.getReference("Community");
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
         if (user != null) {
             // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
+
             String email = user.getEmail();
-            int atindex= email.indexOf("@");
+
             current_user= new RegistrationActivity().emailToName(email);
         }
-
-
+        userPackages= database.getReference().child("User").child(current_user).child(PACKAGES);
+        get_current_packages();
         //highlight menu items when clicked
         Menu menu = bottomNav.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
-        myRef.child(PACKAGES).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<String> package_list= new ArrayList<>();
-                for(DataSnapshot choices:dataSnapshot.getChildren()) {
-                    String package_names = choices.getKey();
 
-                    package_list.add(package_names);
-                    Log.i("Packages Imported", package_names);
-                }
-                PackageActivity.this.add_checkbox(package_list);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         add_packages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mref.child(current_user).child(PACKAGES).setValue(package_to_import);
+                myRef  .child(current_user).child(PACKAGES).setValue(package_to_import);
                 Intent intent = new Intent(PackageActivity.this, CalendarActivity.class);
                 startActivity(intent);
             }
@@ -113,6 +100,48 @@ public class PackageActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    public void get_list_of_packages(){
+        myRef.child(PACKAGES).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> package_list= new ArrayList<>();
+                for(DataSnapshot choices:dataSnapshot.getChildren()) {
+                    String package_names = choices.getKey();
+                    if(Unique_event.get(package_names)==null){
+                        package_list.add(package_names);
+                    }
+
+
+                    Log.i("Packages Imported", package_names);
+                }
+                PackageActivity.this.add_checkbox(package_list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void get_current_packages(){
+        userPackages.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot choices:dataSnapshot.getChildren()) {
+                    String package_names = choices.getKey();
+                    Unique_event.put(package_names, choices.getValue());
+                }
+                get_list_of_packages();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
     public void add_checkbox(ArrayList<String> package_list){
 

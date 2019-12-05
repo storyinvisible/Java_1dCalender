@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,7 +44,7 @@ public class NewsFeed_adaptor extends RecyclerView.Adapter<NewsFeed_adaptor.View
         TextView event_name;
         TextView event_dates;
         TextView event_descr;
-        RelativeLayout layout;
+        LinearLayout layout;
         public ViewHolder(View items){
             super(items);
             event_name=items.findViewById(R.id.cardvieweventname);
