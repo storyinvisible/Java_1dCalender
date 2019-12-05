@@ -98,6 +98,7 @@ public abstract class Base_Calendar extends AppCompatActivity
                 Toast.LENGTH_SHORT).show();
 
     }
+
     public WeekView getWeekView() {
         return mWeekView;
     }

@@ -72,6 +72,7 @@ public class CalendarActivity extends Base_Calendar  {
         mWeekView = (WeekView) findViewById(R.id.weekView);
         update_events();
         getAllPackages_name();
+        mWeekView.setEmptyViewClickListener(this);
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
@@ -428,12 +429,7 @@ public class CalendarActivity extends Base_Calendar  {
                 time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
     }
 
-    @Override
-    public void onEmptyViewClicked(Calendar time) {
-        super.onEmptyViewClicked(time);
-        Intent intent = new Intent(CalendarActivity.this, Create_Event.class);
-        startActivity(intent);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
