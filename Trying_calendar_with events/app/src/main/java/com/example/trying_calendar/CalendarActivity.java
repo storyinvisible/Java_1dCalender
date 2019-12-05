@@ -48,7 +48,7 @@ public class CalendarActivity extends Base_Calendar  {
     DatabaseReference mUserpackageRef;
     DatabaseReference mUserEventReference;
     DatabaseReference mpackageRef;
-    ArrayList<WeekViewEvent> all_packages_event;
+    ArrayList<WeekViewEvent> all_packages_event= new ArrayList<WeekViewEvent>();
 
     HashMap <String, WeekViewEvent> eventHashMap= new HashMap<>();
     @Override
@@ -62,7 +62,7 @@ public class CalendarActivity extends Base_Calendar  {
         mUserEventReference = FirebaseDatabase.getInstance().getReference("User"+"/"+user+"/"+"event");
         mUserpackageRef = FirebaseDatabase.getInstance().getReference("User"+"/"+user+"/Packages");
 
-
+        mpackageRef = FirebaseDatabase.getInstance().getReference("Community/Packages");
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
         //highlight menu items when clicked
@@ -144,13 +144,14 @@ public class CalendarActivity extends Base_Calendar  {
         mpackageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Object> package_with_details = new HashMap<>();
+
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
 
                     if(event_names.get(snapshot.getKey())!=null){
+                        HashMap<String, Object> package_with_details = (HashMap<String, Object>)snapshot.getValue();
                         String package_name= snapshot.getKey();
-                        package_with_details.put(snapshot.getKey(), snapshot.getValue());
                         List<String> all_Date_in_a_week_day;
+
                         all_Date_in_a_week_day = get_date_of_a_day(package_with_details.get("Start Date").toString(), package_with_details.get("End date").toString(), package_with_details.get("Weekday").toString());
                         for(String date: all_Date_in_a_week_day){
                             String date_str = date;
@@ -164,6 +165,7 @@ public class CalendarActivity extends Base_Calendar  {
 
                 }
                 mWeekView.notifyDatasetChanged();
+
 
             }
 
