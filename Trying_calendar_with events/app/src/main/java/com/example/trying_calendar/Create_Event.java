@@ -22,17 +22,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.allyants.chipview.ChipView;
 import com.allyants.chipview.SimpleChipAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,11 +77,11 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
     //private RecyclerView.Adapter adapter;
     /**Custom Dialog*/
     private TextView tvSelectedChoice;
+    private Button btnSelectedChoice;
     /**Chip View and tag*/
     ArrayList tags=new ArrayList<String>();
-    ArrayList selectedTags_object =new ArrayList<String>();
+    ArrayList selectedTags=new ArrayList<String>();
     private ChipView mChipView;
-    private Button btnInvite;
 
     String event, details;
 
@@ -100,9 +106,9 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         final ArrayList<String> userToInvite=new ArrayList<>();
         /**Custom Dialog*/
         tvSelectedChoice=findViewById(R.id.tvSelectedPeople);
+        btnSelectedChoice=findViewById(R.id.btn_ok);
         /**Chip View starts here*/
         mChipView=findViewById(R.id.mChipView);
-        btnInvite=findViewById(R.id.btnInvite);
 
 
         //get current user
@@ -112,7 +118,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         user = new RegistrationActivity().emailToName(email);
 
         //TODO: Btn Selected people
-        btnInvite.setOnClickListener(new View.OnClickListener() {
+        btnSelectedChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (userToInvite.size()!=0) {
@@ -169,7 +175,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
                            //adapter=new UserAdaptor(userToInvite,Create_Event.this);
                            //recyclerView.setAdapter(adapter);
                            //openDialog();
-                           //Log.i("Shaozuo",String.valueOf(userToInvite.size()));
+                           Log.i("Shaozuo",String.valueOf(userToInvite.size()));
                        } catch (NullPointerException ex) {
                            Log.i("Shaozuo",ex.getMessage());
                        }
@@ -319,7 +325,6 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Shaozuo","I just clicked the button_ok");
                 HashMap<String,String> event_details= new HashMap<>();
                 start_date_str = date_from.getText().toString();
                 end_date_str = date_to.getText().toString();
@@ -327,58 +332,25 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
                 end_time_str = toTimeEdit.getText().toString();
                 event = eventEdit.getText().toString();
                 details = detailsEdit.getText().toString();
-                if (checkEventValid(start_date_str,end_date_str,start_time_str,end_time_str,event,details)) {
-                    Intent backToCal = new Intent(Create_Event.this, CalendarActivity.class);
-                    event_details.put("date_from", start_date_str);
-                    event_details.put("date_to", end_date_str);
-                    event_details.put("time_from", start_time_str);
-                    event_details.put("time_to", end_time_str);
-                    event_details.put("details", details);
-                    HashMap<String, Object> a_new_event = new HashMap<>();
-                    a_new_event.put(event,event_details);
-                    mdatabaseRef.child(user).child("event").updateChildren(a_new_event);
-                    Log.i("Shaozuo","Still work here");
+                Intent backToCal = new Intent(Create_Event.this, CalendarActivity.class);
+                event_details.put("date_from", start_date_str);
+                event_details.put("date_to", end_date_str);
+                event_details.put("time_from", start_time_str);
+                event_details.put("time_to", end_time_str);
+                event_details.put("details", details);
+                HashMap<String, Object> a_new_event = new HashMap<>();
+                a_new_event.put(event,event_details);
+                mdatabaseRef.child(user).child("event").updateChildren(a_new_event);
 
-                    for (int i = 0; i< selectedTags_object.size(); i++) {
-                        Object user = selectedTags_object.get(i);
-                        String user_str = user.toString();
-                        Log.i("Shaozuo", user_str);
-                        Log.i("Shaozuo", event);
-                        Log.i("Shaozuo", start_date_str);
-                        mdatabaseRef.child(user_str).child("RSVP events").updateChildren(a_new_event);
-                    }
-                    showToast(event);
-                    showToast(details);
-                    startActivity(backToCal);
-                } else
-                    Toast.makeText(Create_Event.this,"Please fill in all the event details", Toast.LENGTH_LONG).show();
 
+
+                showToast(event);
+                showToast(details);
+                startActivity(backToCal);
 
             }
         });
 
-    }
-    public boolean checkEventValid(String title, String start_date, String start_time, String end_time, String end_date, String details) {
-        if (title.isEmpty()) {
-            Toast.makeText(Create_Event.this, "Please enter the title",Toast.LENGTH_SHORT).show();
-            return false;}
-        else if (start_date.isEmpty()) {
-            Toast.makeText(Create_Event.this, "Please enter the start date",Toast.LENGTH_SHORT).show();
-            return false;}
-        else if (start_time.isEmpty()) {
-            Toast.makeText(Create_Event.this,"Please enter the start time",Toast.LENGTH_SHORT).show();
-            return false;}
-        else if (end_time.isEmpty()) {
-            Toast.makeText(Create_Event.this,"Please enter the end time",Toast.LENGTH_SHORT).show();
-            return false;}
-        else if (end_date.isEmpty()) {
-            Toast.makeText(Create_Event.this,"Please enter the end date",Toast.LENGTH_SHORT).show();
-            return false;}
-        else if (details.isEmpty()) {
-            Toast.makeText(Create_Event.this,"Please enter the event details",Toast.LENGTH_SHORT).show();
-            return false;}
-        else
-            return true;
     }
 
     private void showToast(String text) {
@@ -398,8 +370,8 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             stringBuilder.append(str+" ");
         }
         tvSelectedChoice.setText(stringBuilder);
-        selectedTags_object =selectedItemList;
-        SimpleChipAdapter adapter=new SimpleChipAdapter(selectedTags_object);
+        selectedTags=selectedItemList;
+        SimpleChipAdapter adapter=new SimpleChipAdapter(selectedTags);
         mChipView.setAdapter(adapter);
     }
 
