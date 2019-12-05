@@ -63,10 +63,11 @@ public class NewsFeed_adaptor extends RecyclerView.Adapter<NewsFeed_adaptor.View
                 if(holder.RSVP_button.getText().toString()=="RSVP"){
                     replyRSVP(single_event_detail);
                     single_event_detail.RSVP=false;
-                    holder.RSVP_button.setText("Remove");
+                    holder.RSVP_button.setText("Remove Event");
                 }
-                else if(holder.RSVP_button.getText().toString()=="RSVP"){
+                else if(holder.RSVP_button.getText().toString()=="Remove Event"){
                     EventList.remove(single_event_detail);
+                    remove_event(single_event_detail);
                     NewsFeed_adaptor.this.notifyDataSetChanged();
                 }
             }
