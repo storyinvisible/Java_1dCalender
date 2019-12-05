@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -260,8 +261,20 @@ public class Create_packages extends AppCompatActivity {
             HashMap<String,Object> package_map = new HashMap<>();
             package_map.put(package_name_str,package_name_str);
             myRef_user.child("Packages").updateChildren(package_map);
-            Intent intent = new Intent(Create_packages.this, CalendarActivity.class);
-            startActivity(intent);
+
+            if(start_date_str.matches("Choose Start Date") || end_date_str.matches("Choose End Date")){
+                Toast.makeText(Create_packages.this, "You did not enter valid dates", Toast.LENGTH_SHORT).show();
+            }
+            else if(start_time_str.matches("Choose Start Time") || end_time_str.matches("Choose End Time")){
+                Toast.makeText(Create_packages.this, "You did not enter a valid timeslot", Toast.LENGTH_SHORT).show();
+            }
+            else if(package_name_str.matches("")){
+                Toast.makeText(Create_packages.this, "You did not enter a valid Package Name", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent intent = new Intent(Create_packages.this, CalendarActivity.class);
+                startActivity(intent);
+            }
 
         }
     });
