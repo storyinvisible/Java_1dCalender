@@ -75,6 +75,8 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
     ArrayList selectedTags_object =new ArrayList<String>();
     private ChipView mChipView;
     private Button btnInvite;
+    /**Free time finder*/
+    Button btnFreeTimeFinder;
 
     String event, details;
 
@@ -101,6 +103,9 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         /**Chip View starts here*/
         mChipView=findViewById(R.id.mChipView);
         btnInvite=findViewById(R.id.btnInvite);
+        /**Free Time Finder*/
+        btnFreeTimeFinder=findViewById(R.id.btnFreeTimeFinder);
+
 
 
         //get current user
@@ -108,6 +113,17 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
         String email = user_firebase.getEmail().toString();
         user = new RegistrationActivity().emailToName(email);
+
+        //TODO: Btn free time finder
+        btnFreeTimeFinder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                date_from.setText("26/12/2019");
+                fromTimeEdit.setText("00:00");
+                toTimeEdit.setText("00:00");
+            }
+        });
 
         //TODO: Btn Selected people
         btnInvite.setOnClickListener(new View.OnClickListener() {
@@ -343,9 +359,11 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
                     for (int i = 0; i< selectedTags_object.size(); i++) {
                         Object user = selectedTags_object.get(i);
                         String user_str = user.toString();
-                        Log.i("Shaozuo", user_str);
-                        Log.i("Shaozuo", event);
-                        Log.i("Shaozuo", start_date_str);
+                        //Log.i("Shaozuo", user_str);
+                        //Log.i("Shaozuo", event);
+                        Log.i("Shaozuo","start date string"+start_date_str);
+                        Log.i("Shaozuo","start time string"+start_time_str);
+                        Log.i("Shaozuo","end time string"+end_time_str);
                         mdatabaseRef.child(user_str).child("RSVP events").updateChildren(a_new_event);
                     }
                     showToast(event);

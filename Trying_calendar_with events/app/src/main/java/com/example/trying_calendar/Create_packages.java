@@ -25,9 +25,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -51,6 +53,7 @@ public class Create_packages extends AppCompatActivity {
     TextView start_time;
     TextView end_time;
     TextView package_name;
+    Switch freetimeswitch;
     int currentHour;
     int currentMinute;
     String amPm;
@@ -106,6 +109,7 @@ public class Create_packages extends AppCompatActivity {
             }
         });
         create_packages= findViewById(R.id.create_packages);
+        freetimeswitch = findViewById(R.id.freetimeswitch);
         startdate =findViewById(R.id.start_date);
         enddate= findViewById(R.id.end_date);
         start_time = findViewById(R.id.start_time);
@@ -205,6 +209,16 @@ public class Create_packages extends AppCompatActivity {
             }
         });
 
+        freetimeswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                } else {
+                    // The toggle is disabled
+                }
+            }
+        });
+
         //Navigation Bar Bottom
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -241,6 +255,7 @@ public class Create_packages extends AppCompatActivity {
     create_packages.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String statusFreeTimeSwitch;
             HashMap<String,String> packages_details= new HashMap<>();
             start_date_str= startdate.getText().toString();
             end_date_str= enddate.getText().toString();
@@ -248,7 +263,14 @@ public class Create_packages extends AppCompatActivity {
             start_time_str= start_time.getText().toString();
             community= packages_for.getSelectedItem().toString();
             weekdays=  package_day.getSelectedItem().toString();
-            package_name_str = package_name.getText().toString();
+
+            if (freetimeswitch.isChecked()) {
+                package_name.setText("Free Time");
+            }
+            else {
+                package_name_str = package_name.getText().toString();
+            }
+
             packages_details.put("Start Date", start_date_str);
             packages_details.put("End date", end_date_str);
             packages_details.put("Weekday", weekdays);
