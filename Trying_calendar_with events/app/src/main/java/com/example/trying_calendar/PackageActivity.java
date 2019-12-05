@@ -41,7 +41,7 @@ public class PackageActivity extends AppCompatActivity {
     int check_box_id = 1000;
     int check_box_count=0;
     Button add_packages;
-
+    private FirebaseAuth firebaseAuth;
 
     HashMap<String,String> package_to_import= new HashMap<String, String>();
     final HashMap<String, Object> Unique_event= new HashMap<String, Object>() ;// the event the current suer have
@@ -51,11 +51,12 @@ public class PackageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packages);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         Packages_layout= findViewById(R.id.packages_list);
         add_packages=findViewById(R.id.add_packages);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         myRef = database.getReference("Community");
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
 
 
         if (user != null) {
@@ -183,9 +184,13 @@ public class PackageActivity extends AppCompatActivity {
             case R.id.o_settings:
                 Toast.makeText(this, "Go To Settings", Toast.LENGTH_SHORT).show();
                 return true;
+                //TODO: LOGOUT DOES NOT WORK PROPERLY< CRASHES THE APP
             case R.id.o_logout:
-                Intent intent = new Intent(PackageActivity.this, Login_Activity.class);
-                startActivity(intent);
+                firebaseAuth.signOut();
+                finish();
+                Intent logouti = new Intent(PackageActivity.this, Login_Activity.class);
+                Toast.makeText(this, "logout was runned", Toast.LENGTH_SHORT).show();
+                startActivity(logouti);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

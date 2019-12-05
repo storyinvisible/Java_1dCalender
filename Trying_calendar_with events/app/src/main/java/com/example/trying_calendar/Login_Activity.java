@@ -41,7 +41,7 @@ public class Login_Activity extends AppCompatActivity {
 
         if (user!=null) {
             finish();
-            startActivity(new Intent(Login_Activity.this,MainActivity.class));
+            startActivity(new Intent(Login_Activity.this,CalendarActivity.class));
         }
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +56,7 @@ public class Login_Activity extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             Toast.makeText(Login_Activity.this,"Logged in successfully",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Login_Activity.this,MainActivity.class));
+                            startActivity(new Intent(Login_Activity.this,CalendarActivity.class));
                         } else
                             Toast.makeText(Login_Activity.this,"Logged in failed",Toast.LENGTH_SHORT).show();
                     }
