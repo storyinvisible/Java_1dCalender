@@ -306,7 +306,7 @@ public class Create_packages extends AppCompatActivity {
                         String date_str = date;
                         String start_date = date_str + " " + start_time_str;
                         String end_date = date_str + " " + end_time_str;
-                        packages_details.put(start_date, end_date_str);
+                        packages_details.put(start_date, end_date);
 
 
                     }
