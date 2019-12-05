@@ -48,7 +48,7 @@ public class NewsFeed_adaptor extends RecyclerView.Adapter<NewsFeed_adaptor.View
 
         holder.event_name.setText(EventList.get(position).name);
         final Events_details single_event_detail=EventList.get(position);
-        String date_info= single_event_detail.date_from+ "From :" + single_event_detail.time_from + " to " + single_event_detail.time_to;
+        String date_info= single_event_detail.date_from + " | From " + single_event_detail.time_from + " | To " + single_event_detail.time_to;
         holder.event_dates.setText(date_info);
         holder.event_descr.setText(single_event_detail.Description);
         if((single_event_detail.RSVP)){
