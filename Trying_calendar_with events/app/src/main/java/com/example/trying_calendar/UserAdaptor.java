@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.CheckBox;
 
 import android.widget.LinearLayout;
@@ -56,12 +57,12 @@ public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.ViewHolder> {
         public CheckBox textViewUser;
         public TextView textViewDesc;
         public LinearLayout linearLayout;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewUser=itemView.findViewById(R.id.tvUsername);
             textViewDesc=itemView.findViewById(R.id.tvDesc);
             linearLayout=itemView.findViewById(R.id.cardviewLinearLayout);
         }
+
     }
 }

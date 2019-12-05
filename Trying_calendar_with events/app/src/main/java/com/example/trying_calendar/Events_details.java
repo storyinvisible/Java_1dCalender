@@ -7,17 +7,19 @@ public class Events_details {
     String time_from;
     String time_to;
     String Description;
+    boolean RSVP;
     Events_details(String name,
                    String date_from,
                    String time_from,
                    String time_to,
-                   String Description){
+                   String Description,boolean RSVP){
         this.date_from=date_from;
 
         this.name=name;
         this.time_from=time_from;
         this.time_to= time_to;
         this.Description= Description;
+        this.RSVP=RSVP;
 
     }
 
