@@ -64,7 +64,7 @@ public class NewsFeedActivity extends AppCompatActivity {
         newsfeed_view.setLayoutManager(new LinearLayoutManager(NewsFeedActivity.this));
         update_events();
 
-
+        updateRSVPevent();
 
 
 
