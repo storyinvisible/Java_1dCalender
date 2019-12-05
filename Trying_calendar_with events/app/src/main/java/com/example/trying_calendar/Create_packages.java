@@ -42,6 +42,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 public class Create_packages extends AppCompatActivity {
     Calendar myCalender ;
     DatePickerDialog.OnDateSetListener startdate_listener;
@@ -69,7 +75,8 @@ public class Create_packages extends AppCompatActivity {
     String community;
     String package_name_str;
     FirebaseAuth firebaseAuth;
-    String user = "1000000";
+    boolean free_time ;
+    String user ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -212,8 +219,12 @@ public class Create_packages extends AppCompatActivity {
         freetimeswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
+                    free_time=true;
+                    package_name.setText("Free time ");
+                    Toast.makeText(Create_packages.this,"Free time",Toast.LENGTH_LONG).show();
                 } else {
+                    Toast.makeText(Create_packages.this,"Packages",Toast.LENGTH_LONG).show();
+                    free_time=false;
                     // The toggle is disabled
                 }
             }
@@ -255,49 +266,57 @@ public class Create_packages extends AppCompatActivity {
     create_packages.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String statusFreeTimeSwitch;
-            HashMap<String,String> packages_details= new HashMap<>();
-            start_date_str= startdate.getText().toString();
-            end_date_str= enddate.getText().toString();
-            end_time_str= end_time.getText().toString();
-            start_time_str= start_time.getText().toString();
-            community= packages_for.getSelectedItem().toString();
-            weekdays=  package_day.getSelectedItem().toString();
 
-            if (freetimeswitch.isChecked()) {
-                package_name.setText("Free Time");
-            }
-            else {
-                package_name_str = package_name.getText().toString();
-            }
-
-            packages_details.put("Start Date", start_date_str);
-            packages_details.put("End date", end_date_str);
-            packages_details.put("Weekday", weekdays);
-            packages_details.put("Start Time", start_time_str);
-            packages_details.put("End time", end_time_str);
-            packages_details.put("community", community);
-            myRef.child(MICRO_COMMUNITY).child(community).child(package_name_str).setValue(package_name_str);
-            myRef.child("Packages").child(package_name_str).setValue(packages_details);
-            DatabaseReference myRef_user = database.getReference("User/"+user);
-            HashMap<String,Object> package_map = new HashMap<>();
-            package_map.put(package_name_str,package_name_str);
-            myRef_user.child("Packages").updateChildren(package_map);
-
-            if(start_date_str.matches("Choose Start Date") || end_date_str.matches("Choose End Date")){
+            start_date_str = startdate.getText().toString();
+            end_date_str = enddate.getText().toString();
+            end_time_str = end_time.getText().toString();
+            start_time_str = start_time.getText().toString();
+            community = packages_for.getSelectedItem().toString();
+            weekdays = package_day.getSelectedItem().toString();
+            package_name_str = package_name.getText().toString();
+            if (start_date_str.matches("Choose Start Date") || end_date_str.matches("Choose End Date")) {
                 Toast.makeText(Create_packages.this, "You did not enter valid dates", Toast.LENGTH_SHORT).show();
-            }
-            else if(start_time_str.matches("Choose Start Time") || end_time_str.matches("Choose End Time")){
+            } else if (start_time_str.matches("Choose Start Time") || end_time_str.matches("Choose End Time")) {
                 Toast.makeText(Create_packages.this, "You did not enter a valid timeslot", Toast.LENGTH_SHORT).show();
-            }
-            else if(package_name_str.matches("")){
+            } else if (package_name_str.matches("")) {
                 Toast.makeText(Create_packages.this, "You did not enter a valid Package Name", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Intent intent = new Intent(Create_packages.this, CalendarActivity.class);
-                startActivity(intent);
-            }
+            } else {
+                HashMap<String, String> packages_details = new HashMap<>();
 
+                if (!free_time) {
+
+                    packages_details.put("Start Date", start_date_str);
+                    packages_details.put("End date", end_date_str);
+                    packages_details.put("Weekday", weekdays);
+                    packages_details.put("Start Time", start_time_str);
+                    packages_details.put("End time", end_time_str);
+                    packages_details.put("community", community);
+                    myRef.child(MICRO_COMMUNITY).child(community).child(package_name_str).setValue(package_name_str);
+                    myRef.child("Packages").child(package_name_str).setValue(packages_details);
+                    DatabaseReference myRef_user = database.getReference("User/" + user);
+                    HashMap<String, Object> package_map = new HashMap<>();
+                    package_map.put(package_name_str, package_name_str);
+                    myRef_user.child("Packages").updateChildren(package_map);
+                } else {
+
+                    List<String> all_Date_in_a_week_day;
+                    all_Date_in_a_week_day = get_date_of_a_day(start_date_str, end_date_str, weekdays);
+                    DatabaseReference myRef_user_free_time = database.getReference("User").child(user).child("Free time");
+                    for (String date : all_Date_in_a_week_day) {
+                        String date_str = date;
+                        String start_date = date_str + " " + start_time_str;
+                        String end_date = date_str + " " + end_time_str;
+                        packages_details.put(start_date, end_date_str);
+
+
+                    }
+                    myRef_user_free_time.setValue(packages_details);
+
+                    Intent intent = new Intent(Create_packages.this, CalendarActivity.class);
+                    startActivity(intent);
+                }
+
+            }
         }
     });
 
@@ -316,5 +335,37 @@ public class Create_packages extends AppCompatActivity {
     }
 
      */
+    public List<String> get_date_of_a_day(String start, String end, String which_day ){
+        HashMap<String, Integer> whichday_tiaojian = new HashMap<>();
+        whichday_tiaojian.put("Sunday", DateTimeConstants.SUNDAY);
+        whichday_tiaojian.put("Monday",DateTimeConstants.MONDAY);
+        whichday_tiaojian.put("Tuesday",DateTimeConstants.TUESDAY);
+        whichday_tiaojian.put("Wednesday",DateTimeConstants.WEDNESDAY);
+        whichday_tiaojian.put("Thursday",DateTimeConstants.THURSDAY);
+        whichday_tiaojian.put("Friday",DateTimeConstants.FRIDAY);
+        whichday_tiaojian.put("Saturday",DateTimeConstants.SATURDAY);
+
+        DateTimeFormatter pattern = DateTimeFormat.forPattern("dd/MM/yyyy");
+        DateTime startDate = pattern.parseDateTime(start);
+        DateTime endDate = pattern.parseDateTime(end);
+
+        List<String> fridays = new ArrayList<>();
+        String start_date_pure;
+
+
+        while (startDate.isBefore(endDate)){
+            if ( startDate.getDayOfWeek() == whichday_tiaojian.get(which_day) ){
+                start_date_pure = startDate.toString().split("T")[0];
+
+                fridays.add(start_date_pure);
+            }
+            startDate = startDate.plusDays(1);
+        }
+        Log.i("fridays", fridays.toString());
+        return fridays;
+
+
+
+    }
 
 }
