@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -433,7 +434,7 @@ public class CalendarActivity extends Base_Calendar  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
+        inflater.inflate(R.menu.options_menu_calendar, menu);
 
         return true;
     }
@@ -457,6 +458,10 @@ public class CalendarActivity extends Base_Calendar  {
                 finish();
                 Intent intent = new Intent(CalendarActivity.this, Login_Activity.class);
                 startActivity(intent);
+                return true;
+            case R.id.o_goToDate:
+                Intent goToDate = new Intent(CalendarActivity.this, CalendarActivity.class);
+                startActivity(goToDate);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -62,4 +62,5 @@
     <string name="package_name">Package Name</string>
     <string name="invite_friends">Invite your friends below</string>
     <string name="remove_event">Remove Event</string>
+    <string name="go_to_date">Go To Date</string>
 </resources>
