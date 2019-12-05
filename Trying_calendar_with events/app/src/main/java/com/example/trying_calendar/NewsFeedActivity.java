@@ -79,10 +79,6 @@ public class NewsFeedActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.newsfeed:
-                        Intent intent1 = new Intent(NewsFeedActivity.this, NewsFeedActivity.class);
-                        startActivity(intent1);
-                        return true;
                     case R.id.calendar:
                         Intent intent2 = new Intent(NewsFeedActivity.this, CalendarActivity.class);
                         startActivity(intent2);

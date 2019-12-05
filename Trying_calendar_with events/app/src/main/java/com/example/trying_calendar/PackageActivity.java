@@ -92,10 +92,6 @@ public class PackageActivity extends AppCompatActivity {
                         Intent intent2 = new Intent(PackageActivity.this, CalendarActivity.class);
                         startActivity(intent2);
                         return true;
-                    case R.id.packages:
-                        Intent intent3 = new Intent(PackageActivity.this, PackageActivity.class);
-                        startActivity(intent3);
-                        return true;
                 }
                 return false;
             }
@@ -178,10 +174,11 @@ public class PackageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.o_create_packages:
-                Toast.makeText(this, "Create Package", Toast.LENGTH_SHORT).show();
-                return true;
+                Intent create_packages = new Intent(PackageActivity.this, Create_packages.class);
+                startActivity(create_packages);
             case R.id.o_create_event:
-                Toast.makeText(this, "Create Event", Toast.LENGTH_SHORT).show();
+                Intent create_event = new Intent(PackageActivity.this,Create_Event.class);
+                startActivity(create_event);
                 return true;
             case R.id.o_settings:
                 Toast.makeText(this, "Go To Settings", Toast.LENGTH_SHORT).show();

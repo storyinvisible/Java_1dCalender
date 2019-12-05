@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="#CFDFFF"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/create_event_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,18 +24,18 @@
 
         <EditText
             android:id="@+id/eventEdit"
-            android:layout_width="240dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="62dp"
             android:layout_marginLeft="62dp"
-            android:background="#adecff"
             android:hint="@string/event_title_hint"
+            android:inputType="textNoSuggestions"
             android:paddingLeft="3dp"
             android:paddingTop="6dp"
             android:paddingRight="3dp"
             android:paddingBottom="6dp"
-            android:textColor="@android:color/black"
-            android:textSize="10sp"
+            android:textColor="#000000"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/btn_back_to_basic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_back_to_basic"
@@ -48,12 +47,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="62dp"
             android:layout_marginLeft="62dp"
-            android:background="#adecff"
             android:gravity="center"
             android:hint="@string/ddmmyyyy"
             android:padding="4dp"
             android:textColor="@android:color/black"
-            android:textSize="10sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/dateImgView"
@@ -63,14 +61,13 @@
             android:id="@+id/date_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:background="#adecff"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:gravity="center"
             android:hint="@string/ddmmyyyy"
             android:padding="4dp"
             android:textColor="@android:color/black"
-            android:textSize="10sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
             app:layout_constraintStart_toEndOf="@+id/toTimeEdit"
             app:layout_constraintTop_toTopOf="@+id/dateImgView"
@@ -78,54 +75,22 @@
 
         <EditText
             android:id="@+id/detailsEdit"
-            android:layout_width="240dp"
-            android:layout_height="200dp"
+            android:layout_width="300dp"
+            android:layout_height="198dp"
             android:layout_marginStart="62dp"
             android:layout_marginLeft="62dp"
-            android:background="#adecff"
             android:gravity="start"
             android:hint="@string/enter_details"
+            android:inputType="textNoSuggestions"
             android:paddingLeft="3dp"
             android:paddingTop="6dp"
             android:paddingRight="3dp"
             android:paddingBottom="6dp"
             android:textColor="@android:color/black"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/detailImgView"
-            app:layout_constraintVertical_bias="0.0"
             tools:ignore="SmallSp" />
-
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="65dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="28dp"
-            android:text="@string/ok"
-            android:textColor="@android:color/black"
-            app:layout_constraintBottom_toTopOf="@+id/mChipView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.736"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailsEdit"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/btnInvitePeople"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Invite More People"
-            android:textColor="@android:color/black"
-            app:layout_constraintBottom_toTopOf="@+id/mChipView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.252"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailsEdit"
-            app:layout_constraintVertical_bias="0.051" />
 
         <ImageView
             android:id="@+id/dateImgView"
@@ -153,12 +118,13 @@
             android:id="@+id/fromTimeEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:gravity="center"
             android:hint="@string/_00_00"
             android:padding="2dp"
             android:textColor="@android:color/black"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
             app:layout_constraintStart_toEndOf="@+id/date_from"
             app:layout_constraintTop_toTopOf="@+id/dateImgView" />
@@ -167,12 +133,13 @@
             android:id="@+id/toTimeEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:gravity="center"
             android:hint="@string/_00_00"
             android:padding="2dp"
             android:textColor="@android:color/black"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
             app:layout_constraintStart_toEndOf="@+id/toTextView"
             app:layout_constraintTop_toTopOf="@+id/dateImgView" />
@@ -181,15 +148,14 @@
             android:id="@+id/toTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:text="@string/to"
             android:textColor="@android:color/black"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/dateImgView"
             app:layout_constraintStart_toEndOf="@+id/fromTimeEdit"
             app:layout_constraintTop_toTopOf="@+id/dateImgView" />
-
 
         <com.allyants.chipview.ChipView
             android:id="@+id/mChipView"
@@ -200,7 +166,7 @@
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailsEdit"
-            app:layout_constraintVertical_bias="0.827">
+            app:layout_constraintVertical_bias="0.505">
 
             <TextView
                 android:id="@+id/tvSelectedPeople"
@@ -212,15 +178,49 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="89dp"
-                android:layout_marginLeft="89dp"
-                android:layout_marginTop="175dp"
-                android:layout_marginEnd="87dp"
-                android:layout_marginRight="87dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginStart="90dp"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="57dp"
+                android:layout_marginEnd="86dp"
+                android:layout_marginRight="86dp"
+                android:layout_marginBottom="58dp"
+                android:gravity="center"
                 android:text="Selected People"
                 android:textSize="24sp" />
         </com.allyants.chipview.ChipView>
+
+        <TextView
+            android:id="@+id/tvInvite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/invite_friends"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/detailsEdit"
+            app:layout_constraintTop_toBottomOf="@+id/detailsEdit" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:text="@string/ok"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="@+id/detailsEdit"
+            app:layout_constraintStart_toEndOf="@+id/tvInvite"
+            app:layout_constraintTop_toBottomOf="@+id/detailsEdit" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="start"
+            android:background="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/navigation" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -103,7 +103,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         final ArrayList<String> userToInvite=new ArrayList<>();
         /**Custom Dialog*/
         tvSelectedChoice=findViewById(R.id.tvSelectedPeople);
-        btnSelectedChoice=findViewById(R.id.btnInvitePeople);
+        btnSelectedChoice=findViewById(R.id.btn_ok);
         /**Chip View starts here*/
         mChipView=findViewById(R.id.mChipView);
 
@@ -174,7 +174,6 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             public void onClick(View v) {
                 event = eventEdit.getText().toString();
                 details = detailsEdit.getText().toString();
-
                 showToast(event);
                 showToast(details);
 
@@ -300,6 +299,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
                 end_time_str = toTimeEdit.getText().toString();
                 event = eventEdit.getText().toString();
                 details = detailsEdit.getText().toString();
+                Intent backToCal = new Intent(Create_Event.this, CalendarActivity.class);
                 event_details.put("date_from", start_date_str);
                 event_details.put("date_to", end_date_str);
                 event_details.put("time_from", start_time_str);
@@ -313,7 +313,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
 
                 showToast(event);
                 showToast(details);
-
+                startActivity(backToCal);
 
             }
         });
