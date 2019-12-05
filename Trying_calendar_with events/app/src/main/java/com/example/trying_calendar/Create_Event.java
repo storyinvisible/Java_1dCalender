@@ -43,7 +43,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
     Button btn_back_to_basic;
     EditText eventEdit;
     TextView date_from;
-    TextView date_to;
+    //TextView date_to;
     TextView fromTimeEdit;
     TextView toTimeEdit;
     EditText detailsEdit;
@@ -86,7 +86,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         btn_back_to_basic = findViewById(R.id.btn_back_to_basic);
         eventEdit = findViewById(R.id.eventEdit);
         date_from = findViewById(R.id.date_from);
-        date_to = findViewById(R.id.date_to);
+        //date_to = findViewById(R.id.date_to);
         fromTimeEdit = findViewById(R.id.fromTimeEdit);
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
@@ -236,6 +236,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         };
 
         //ToDo: CHOOSE TO DATE
+        /*
         date_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -254,6 +255,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             }
         });
 
+
         //initialise on date set listener object
         mDateSetListener2 = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -264,6 +266,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
                 date_to.setText(date);
             }
         };
+         */
 
         //ToDo: CHOOSE FROM TIME
         fromTimeEdit.setOnClickListener(new View.OnClickListener() {
