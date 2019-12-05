@@ -1,5 +1,7 @@
 package com.example.trying_calendar;
 
+import java.util.HashMap;
+
 public class Events_details {
     String date_from;
 
@@ -41,6 +43,16 @@ public class Events_details {
 
     public String getTime_to() {
         return time_to;
+    }
+    public HashMap<String,String> getHashmao(){
+        HashMap<String,String> eventHashmap = new HashMap<String ,String>();
+        eventHashmap.put("date_from",date_from);
+        eventHashmap.put("time_from",time_from);
+        eventHashmap.put("time_to",time_to);
+        eventHashmap.put("details",Description);
+        return eventHashmap;
+
+
     }
 
 }

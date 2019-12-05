@@ -72,6 +72,7 @@ public class CalendarActivity extends Base_Calendar  {
         mWeekView = (WeekView) findViewById(R.id.weekView);
         update_events();
         getAllPackages_name();
+        mWeekView.setEmptyViewClickListener(this);
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
@@ -326,11 +327,10 @@ public class CalendarActivity extends Base_Calendar  {
 
 
                 String start_date_str = one_event_with_details.get("date_from").toString();
-                String end_date_str = one_event_with_details.get("date_to").toString();
                 String start_time_str = one_event_with_details.get("time_from").toString();
                 String end_time_str = one_event_with_details.get("time_to").toString();
                 String start_date = start_date_str + " " + start_time_str;
-                end_date_str = start_date_str + " " + end_time_str;
+                String end_date_str = start_date_str + " " + end_time_str;
                 Calendar calendar_start = CalendarActivity.this.get_calendar(start_date);
                 Calendar calendar_end = get_calendar(end_date_str);
 //                Calendar startTime = Calendar.getInstance();
@@ -428,12 +428,7 @@ public class CalendarActivity extends Base_Calendar  {
                 time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
     }
 
-    @Override
-    public void onEmptyViewClicked(Calendar time) {
-        super.onEmptyViewClicked(time);
-        Intent intent = new Intent(CalendarActivity.this, Create_Event.class);
-        startActivity(intent);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
