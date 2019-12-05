@@ -103,7 +103,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         final ArrayList<String> userToInvite=new ArrayList<>();
         /**Custom Dialog*/
         tvSelectedChoice=findViewById(R.id.tvSelectedPeople);
-        btnSelectedChoice=findViewById(R.id.btnInvitePeople);
+        btnSelectedChoice=findViewById(R.id.btn_ok);
         /**Chip View starts here*/
         mChipView=findViewById(R.id.mChipView);
 
