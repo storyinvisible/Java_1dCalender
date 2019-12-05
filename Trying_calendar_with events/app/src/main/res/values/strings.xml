@@ -55,4 +55,10 @@
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
     <string name="weekday">Day of the Week</string>
+    <string name="choose_start_date">Choose Start Date</string>
+    <string name="choose_end_date">Choose End Date</string>
+    <string name="choose_start_time">Choose Start Time</string>
+    <string name="choose_end_time">Choose End Time</string>
+    <string name="package_name">Package Name</string>
+    <string name="invite_friends">Invite your friends below</string>
 </resources>

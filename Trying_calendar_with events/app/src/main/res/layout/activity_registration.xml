@@ -5,62 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegistrationActivity">
+
     <EditText
         android:id="@+id/etsignupname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/etsignupnamehint"
         android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etsignupemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/etsignupemailhint"
         android:inputType="textEmailAddress"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/etsignupname"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.157" />
+        app:layout_constraintTop_toBottomOf="@+id/etsignupname" />
 
     <EditText
         android:id="@+id/etsignupcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/etsignupcodehint"
         android:inputType="textPassword"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376" />
+        app:layout_constraintTop_toBottomOf="@+id/etsignupidnum" />
 
     <Button
         android:id="@+id/btnsignupcomplete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:background="@android:color/holo_purple"
         android:text="@string/btnsignupcomplete"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91" />
+        app:layout_constraintVertical_bias="0.847" />
 
     <TextView
         android:id="@+id/tvsignupback"
@@ -72,22 +73,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.977" />
+        app:layout_constraintVertical_bias="0.903" />
 
     <EditText
         android:id="@+id/etsignupidnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/etsignupidnum"
         android:inputType="number"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.264" />
+        app:layout_constraintTop_toBottomOf="@+id/etsignupemail" />
 
 
     <RadioGroup
@@ -95,19 +95,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.889"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etsignupcode"
-        app:layout_constraintVertical_bias="0.207">
+        app:layout_constraintStart_toEndOf="@+id/rgpillarsel"
+        app:layout_constraintTop_toBottomOf="@+id/etsignupcode">
 
         <TextView
             android:id="@+id/tvrolesel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Position/Role"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.102"
@@ -122,7 +120,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="Student"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/btnStudentAdmin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.101"
@@ -135,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Student Admin"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/btnFaculty"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.102"
@@ -147,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="184dp"
             android:text="Faculty"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.105"
@@ -158,54 +156,53 @@
         android:id="@+id/rgpillarsel"
         android:layout_width="158dp"
         android:layout_height="314dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etsignupcode"
-        app:layout_constraintVertical_bias="0.192">
+        app:layout_constraintTop_toBottomOf="@+id/etsignupcode">
 
         <TextView
             android:id="@+id/tvPillar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pillar"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/btnFreshmore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Freshmore"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/btnISTD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ISTD"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/btnEPD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="EPD"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/btnESD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ESD"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/btnASD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ASD"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
