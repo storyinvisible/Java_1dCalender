@@ -120,10 +120,6 @@ public class CalendarActivity extends Base_Calendar  {
                         Intent intent1 = new Intent(CalendarActivity.this, NewsFeedActivity.class);
                         startActivity(intent1);
                         return true;
-                    case R.id.calendar:
-                        Intent intent2 = new Intent(CalendarActivity.this, CalendarActivity.class);
-                        startActivity(intent2);
-                        return true;
                     case R.id.packages:
                         Intent intent3 = new Intent(CalendarActivity.this, PackageActivity.class);
                         startActivity(intent3);
