@@ -56,9 +56,9 @@ public class PackageActivity extends AppCompatActivity {
         add_packages=findViewById(R.id.add_packages);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         myRef = database.getReference("Community");
-        final FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
 
-
+        userPackages= database.getReference().child("User").child(PACKAGES);
         if (user != null) {
             // Name, email address, and profile photo Url
 
@@ -76,7 +76,7 @@ public class PackageActivity extends AppCompatActivity {
         add_packages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRef  .child(current_user).child(PACKAGES).setValue(package_to_import);
+                userPackages.setValue(package_to_import);
                 Intent intent = new Intent(PackageActivity.this, CalendarActivity.class);
                 startActivity(intent);
             }
