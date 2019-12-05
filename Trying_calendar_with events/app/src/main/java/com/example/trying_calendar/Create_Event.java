@@ -19,9 +19,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.allyants.chipview.ChipView;
+import com.allyants.chipview.SimpleChipAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -38,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class Create_Event extends AppCompatActivity {
+public class Create_Event extends AppCompatActivity implements MultipleDialogFragment.onMultiChoiceListener{
 
     Button btn_back_to_basic;
     EditText eventEdit;
@@ -67,8 +70,15 @@ public class Create_Event extends AppCompatActivity {
     /**Firebase instance*/
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     /**Recycler View*/
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    //private RecyclerView recyclerView;
+    //private RecyclerView.Adapter adapter;
+    /**Custom Dialog*/
+    private TextView tvSelectedChoice;
+    private Button btnSelectedChoice;
+    /**Chip View and tag*/
+    ArrayList tags=new ArrayList<String>();
+    ArrayList selectedTags=new ArrayList<String>();
+    private ChipView mChipView;
 
     String event, details;
 
@@ -85,21 +95,18 @@ public class Create_Event extends AppCompatActivity {
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
-        invitefriends=findViewById(R.id.tvInvite);
         final DatabaseReference mdatabaseRef=database.getReference("User");
         /**Recycler View starts here*/
-        recyclerView=findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final ArrayList<Listed_user> userToInvite=new ArrayList<>();
-        /*
-        for (int i=0;i<10;i++) {
-            Listed_user listed_user=new Listed_user("Joson"+(i+1),"Student");
-            userToInvite.add(listed_user);
+        //recyclerView=findViewById(R.id.recyclerview);
+        //recyclerView.setHasFixedSize(true);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final ArrayList<String> userToInvite=new ArrayList<>();
+        /**Custom Dialog*/
+        tvSelectedChoice=findViewById(R.id.tvSelectedPeople);
+        btnSelectedChoice=findViewById(R.id.btnInvitePeople);
+        /**Chip View starts here*/
+        mChipView=findViewById(R.id.mChipView);
 
-        }
-        //Log.i("Shaozuo",String.valueOf(userToInvite.size()));
-         */
 
         //get current user
         firebaseAuth = FirebaseAuth.getInstance();
@@ -107,8 +114,19 @@ public class Create_Event extends AppCompatActivity {
         String email = user_firebase.getEmail().toString();
         user = new RegistrationActivity().emailToName(email);
 
-
-
+        //TODO: Btn Selected people
+        btnSelectedChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userToInvite.size()!=0) {
+                    DialogFragment multiChoiceDialog = new MultipleDialogFragment(userToInvite);
+                    multiChoiceDialog.setCancelable(false);
+                    multiChoiceDialog.show(getSupportFragmentManager(), "MultiChoice Dialog");
+                } else {
+                    Toast.makeText(Create_Event.this,"There is no friend here",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         //TODO: DatabaseReference get user name
         mdatabaseRef.addValueEventListener(new ValueEventListener() {
            @Override
@@ -119,11 +137,13 @@ public class Create_Event extends AppCompatActivity {
                            Log.i("Shaozuo",snapshot.child("Name Node").getValue().toString());
                            Listed_user listed_user=new Listed_user(
                                    snapshot.child("Name Node").getValue().toString(),snapshot.child("role").getValue().toString());
-                          // userToInvite.add(listed_user);
+                           if (userToInvite.indexOf(listed_user.getUsername())==-1){
+                               userToInvite.add(listed_user.getUsername());
+                           }
                            //adapter=new UserAdaptor(userToInvite,Create_Event.this);
                            //recyclerView.setAdapter(adapter);
-                           openDialog();
-
+                           //openDialog();
+                           Log.i("Shaozuo",String.valueOf(userToInvite.size()));
                        } catch (NullPointerException ex) {
                            Log.i("Shaozuo",ex.getMessage());
                        }
@@ -307,5 +327,23 @@ public class Create_Event extends AppCompatActivity {
 
     }
 
+    //TODO: ADD custom dialog
 
+    @Override
+    public void onPositiveButtonClicked(String[] list, ArrayList<String> selectedItemList) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append("Selected Choices=");
+        for (String str:selectedItemList) {
+            stringBuilder.append(str+" ");
+        }
+        tvSelectedChoice.setText(stringBuilder);
+        selectedTags=selectedItemList;
+        SimpleChipAdapter adapter=new SimpleChipAdapter(selectedTags);
+        mChipView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
+        tvSelectedChoice.setText("Dialog Canceled");
+    }
 }

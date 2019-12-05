@@ -6,7 +6,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.trying_calendar"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -40,4 +40,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'joda-time:joda-time:2.9.4'
     implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.github.jakebonk:ChipView:1.0.1'
+
 }
