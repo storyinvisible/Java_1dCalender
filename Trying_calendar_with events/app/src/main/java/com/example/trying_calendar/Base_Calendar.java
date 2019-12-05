@@ -31,7 +31,7 @@ public abstract class Base_Calendar extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.acitivy_basic_calendar);
+        setContentView(R.layout.activity_basic_calendar);
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
