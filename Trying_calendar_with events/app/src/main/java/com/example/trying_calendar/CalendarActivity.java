@@ -121,6 +121,7 @@ public class CalendarActivity extends Base_Calendar  {
             }
         });
     }
+    // get all package names under current user and call update_packages.
     public void getAllPackages_name(){
         final HashMap<String,String> Events_names= new HashMap<String, String>();
         Events_names.clear();
@@ -140,6 +141,7 @@ public class CalendarActivity extends Base_Calendar  {
             }
         });
     }
+    // transfer packages details to WeekViewEvent form and put them in a event list.
     public void update_packages(final HashMap<String,String> event_names){
         mpackageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -271,7 +273,7 @@ public class CalendarActivity extends Base_Calendar  {
         WeekViewEvent single_event = new WeekViewEvent(1, package_name, calendar_start,calendar_end);
         return single_event;
     }
-
+    //get list of a specific weekday in a time period.
     //format should be start = "01/01/2009";end = "12/09/2013"; which_day = "Monday";
     public List<String> get_date_of_a_day(String start, String end, String which_day ){
         HashMap<String, Integer> whichday_tiaojian = new HashMap<>();

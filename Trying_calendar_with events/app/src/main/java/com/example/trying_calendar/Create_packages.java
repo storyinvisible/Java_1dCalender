@@ -235,7 +235,9 @@ public class Create_packages extends AppCompatActivity {
             }
         });
 
-
+    // put packages details in firebase under Communinty/packages.
+    //put package_name according to its micro-community and creator.
+    //
     create_packages.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
