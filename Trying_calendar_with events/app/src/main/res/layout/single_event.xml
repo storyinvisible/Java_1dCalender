@@ -2,30 +2,61 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#9fd3c7"
+    android:layout_marginTop="0dp">
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/eventcards">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_default_radius"
-            android:id="@+id/cardvieweventname"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/startnendtime"
-            />
-        <TextView
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/eventDescription"/>
-            />
+            android:orientation="vertical"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            >
+
+            <TextView
+                android:id="@+id/cardvieweventname"
+                android:layout_width="240dp"
+                android:layout_height="25dp"
+                android:background="#ffffff"
+                android:padding="3dp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/startnendtime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:padding="3dp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:textColor="#000000"
+                android:padding="3dp"
+                />
+
+        </LinearLayout>
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/RSVP"/>
-</LinearLayout>
+            android:id="@+id/RSVP"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:background="#ffffff"
+            android:textSize="12sp"
+            android:layout_margin="10dp"
+            />
+
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>
