@@ -19,6 +19,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -198,6 +201,36 @@ public class Create_packages extends AppCompatActivity {
                     }}, currentHour, currentMinute, false);
                 end_time_picker.show();
 
+            }
+        });
+
+        //Navigation Bar Bottom
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+        //highlight menu items when clicked
+        Menu menu = bottomNav.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.newsfeed:
+                        Intent intent1 = new Intent(Create_packages.this, NewsFeedActivity.class);
+                        startActivity(intent1);
+                        return true;
+                    case R.id.calendar:
+                        Intent intent2 = new Intent(Create_packages.this, CalendarActivity.class);
+                        startActivity(intent2);
+                        return true;
+                    case R.id.packages:
+                        Intent intent3 = new Intent(Create_packages.this, PackageActivity.class);
+                        startActivity(intent3);
+                        return true;
+                }
+                return false;
             }
         });
 
