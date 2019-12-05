@@ -327,6 +327,10 @@ public class CalendarActivity extends Base_Calendar  {
 
 
                 String start_date_str = one_event_with_details.get("date_from").toString();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 275f5b1f92672b62f0540d0152f193fb2c354e5e
                 String start_time_str = one_event_with_details.get("time_from").toString();
                 String end_time_str = one_event_with_details.get("time_to").toString();
                 String start_date = start_date_str + " " + start_time_str;
