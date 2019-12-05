@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Go To Settings", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.o_logout:
-
                 firebaseAuth.signOut();
                 finish();
                 Intent intent = new Intent(MainActivity.this, Login_Activity.class);

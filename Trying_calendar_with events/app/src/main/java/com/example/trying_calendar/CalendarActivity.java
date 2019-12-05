@@ -456,6 +456,8 @@ public class CalendarActivity extends Base_Calendar  {
                 Toast.makeText(this, "Go To Settings", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.o_logout:
+                firebaseAuth.signOut();
+                finish();
                 Intent intent = new Intent(CalendarActivity.this, Login_Activity.class);
                 startActivity(intent);
                 return true;

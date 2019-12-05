@@ -162,7 +162,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             @Override
             public void onClick(View v) {
                 Log.i("create events", "im trying to go back to the weekly calendar");
-                Intent intent = new Intent(Create_Event.this, Welcome_Page.class);
+                Intent intent = new Intent(Create_Event.this, CalendarActivity.class);
                 startActivity(intent);
             }
         });

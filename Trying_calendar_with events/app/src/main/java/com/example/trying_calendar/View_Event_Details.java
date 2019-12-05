@@ -34,7 +34,7 @@ public class View_Event_Details extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("view events", "im trying to view the event page");
-                Intent intent = new Intent(View_Event_Details.this, Welcome_Page.class);
+                Intent intent = new Intent(View_Event_Details.this, CalendarActivity.class);
                 startActivity(intent);
             }
         });

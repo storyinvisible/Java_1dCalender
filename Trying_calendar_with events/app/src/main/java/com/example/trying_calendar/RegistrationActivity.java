@@ -69,7 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(RegistrationActivity.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                                    startActivity(new Intent(RegistrationActivity.this, CalendarActivity.class));
                                     role=findViewById(roleGroup.getCheckedRadioButtonId());
                                     pillar=findViewById(pillarGroup.getCheckedRadioButtonId());
                                     //Log.i("Shaozuo",role.getText().toString());
