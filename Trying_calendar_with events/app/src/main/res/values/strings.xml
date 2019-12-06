@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CC+</string>
+    <string name="app_name">Social Calendar</string>
     <string name="today_s_date">today\'s date</string>
     <string name="weekly_schedule">Weekly Schedule</string>
     <string name="daily_schedule">Daily Schedule</string>
