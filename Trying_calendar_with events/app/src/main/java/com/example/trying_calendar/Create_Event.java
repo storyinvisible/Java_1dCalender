@@ -332,7 +332,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             }
         });
 
-        //put event and event details to our firebase under user/event
+        //take all the data and put event and event details to our firebase under user/event
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

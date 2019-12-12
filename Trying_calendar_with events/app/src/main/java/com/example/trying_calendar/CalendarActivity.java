@@ -180,93 +180,7 @@ public class CalendarActivity extends Base_Calendar  {
         });
 
     }
-    public void update_packages(){
-        all_packages_event = new ArrayList<>();
-        mUserpackageRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final HashMap<String, Object> package_to_event_all = new HashMap<>();
-                ArrayList <String> packages_list= new ArrayList<>();
-                //get a list with all packages name in
-                for (DataSnapshot package_name : dataSnapshot.getChildren()) {
-                    packages_list.add(package_name.getKey());
-                    package_to_event_all.put(package_name.getKey(), 000000);
-                }
 
-                for(final String package_name:packages_list){
-                    mpackageRef = FirebaseDatabase.getInstance().getReference("Community/Packages/"+package_name);
-                    mpackageRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        HashMap<String, Object> package_with_details = new HashMap<>();
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot one_package_detial : dataSnapshot.getChildren()) {
-
-                                package_with_details.put(one_package_detial.getKey(), one_package_detial.getValue());
-                            }
-
-                            Log.i("hashmap_package", package_with_details.toString());
-                            String package_name = dataSnapshot.getKey().toString();
-
-                            List<String> all_Date_in_a_week_day;
-                            all_Date_in_a_week_day = get_date_of_a_day(package_with_details.get("Start Date").toString(), package_with_details.get("End date").toString(), package_with_details.get("Weekday").toString());
-                            Log.i("date", all_Date_in_a_week_day.toString());
-                            for(String date: all_Date_in_a_week_day){
-                                String date_str = date;
-                                String start_time_str = package_with_details.get("Start Time").toString();
-                                String end_time_str = package_with_details.get("End time").toString();
-                                eventMaker(package_name, date_str,start_time_str,end_time_str);
-                                String start_date = (date_str + " " + start_time_str).replace("-", "/");
-                                String end_date_str = (date_str + " " + end_time_str).replace("-", "/");
-                                Log.i("package_name_1", package_name);
-                                Log.i("times", start_date);
-                                Log.i("times2", end_date_str);
-
-                                Calendar calendar_start = CalendarActivity.this.get_calendar_package(start_date);
-                                Calendar calendar_end = get_calendar_package(end_date_str);
-                                Calendar startTime = Calendar.getInstance();
-                                WeekViewEvent single_event = new WeekViewEvent(1, package_name, calendar_start,calendar_end);
-                                all_packages_event.add(single_event);
-
-                                Log.i("package_name_2", package_name);
-                                if(eventHashMap.get(package_name)==null) {
-                                    eventHashMap.put(package_name, single_event);
-                                    Log.i("package_name_3", package_name);
-                                }else {
-                                    Log.i("package_name_4", package_name);
-
-                                }
-
-
-
-                            }
-                            mWeekView.notifyDatasetChanged();
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-                }
-
-
-
-
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
     public WeekViewEvent eventMaker(String package_name, String date_str, String start_time,String end_time){
         String start_date = (date_str + " " + start_time).replace("-", "/");
         String end_date_str = (date_str + " " + end_time).replace("-", "/");
@@ -310,7 +224,7 @@ public class CalendarActivity extends Base_Calendar  {
 
     }
 
-
+    //according to firebase, get user's events and display on calender
     public void update_events() {
 
         mUserEventReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -334,11 +248,6 @@ public class CalendarActivity extends Base_Calendar  {
                 String end_date_str = start_date_str + " " + end_time_str;
                 Calendar calendar_start = CalendarActivity.this.get_calendar(start_date);
                 Calendar calendar_end = get_calendar(end_date_str);
-//                Calendar startTime = Calendar.getInstance();
-//                Date date = calendar_start.getInstance().getTime();
-//                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
-//                String strDate = dateFormat.format(date);
-//                Log.i("The calendar event date",strDate);
                 WeekViewEvent single_event = new WeekViewEvent(1, entry.getKey() , calendar_start,calendar_end);
                 Log.i("The event details",single_event.toString());
                 if(eventHashMap.get(entry.getKey())==null) {
