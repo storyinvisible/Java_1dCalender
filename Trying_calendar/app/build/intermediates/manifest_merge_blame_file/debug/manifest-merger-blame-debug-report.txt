@@ -6,49 +6,48 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="14"
-8-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml
+8-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml
+9-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:5:5-67
-11-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:5:22-64
+11-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:5:5-67
+11-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:5:22-64
 12
 13    <application
-13-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:7:5-22:19
+13-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:7:5-22:19
 14        android:allowBackup="true"
-14-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:8:9-35
+14-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:8:9-35
 15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-15-->[androidx.core:core:1.1.0] C:\Users\Zhibo\.gradle\caches\transforms-2\files-2.1\c527b78844be871c44103f6f45a963fb\core-1.1.0\AndroidManifest.xml:24:18-86
+15-->[androidx.core:core:1.1.0] C:\Users\Acer\.gradle\caches\transforms-2\files-2.1\c527b78844be871c44103f6f45a963fb\core-1.1.0\AndroidManifest.xml:24:18-86
 16        android:debuggable="true"
 17        android:icon="@mipmap/ic_launcher"
-17-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:9:9-43
+17-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:9:9-43
 18        android:label="@string/app_name"
-18-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:10:9-41
+18-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:10:9-41
 19        android:roundIcon="@mipmap/ic_launcher_round"
-19-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:11:9-54
+19-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:11:9-54
 20        android:supportsRtl="true"
-20-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:12:9-35
-21        android:testOnly="true"
-22        android:theme="@style/AppTheme" >
-22-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:13:9-40
-23        <activity android:name="com.example.trying_calendar.Basic_Activity" />
-23-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:14:9-61
-23-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:14:19-49
-24        <activity android:name="com.example.trying_calendar.MainActivity" >
-24-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:15:9-21:20
-24-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:15:19-47
-25            <intent-filter>
-25-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:16:13-20:29
-26                <action android:name="android.intent.action.MAIN" />
-26-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:17:17-69
-26-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:17:25-66
-27
-28                <category android:name="android.intent.category.LAUNCHER" />
-28-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:19:17-77
-28-->D:\SUTD\Term 4 Introduction to Information System\1D\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:19:27-74
-29            </intent-filter>
-30        </activity>
-31    </application>
-32
-33</manifest>
+20-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:12:9-35
+21        android:theme="@style/AppTheme" >
+21-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:13:9-40
+22        <activity android:name="com.example.trying_calendar.Basic_Activity" />
+22-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:14:9-61
+22-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:14:19-49
+23        <activity android:name="com.example.trying_calendar.MainActivity" >
+23-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:15:9-21:20
+23-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:15:19-47
+24            <intent-filter>
+24-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:16:13-20:29
+25                <action android:name="android.intent.action.MAIN" />
+25-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:17:17-69
+25-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:17:25-66
+26
+27                <category android:name="android.intent.category.LAUNCHER" />
+27-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:19:17-77
+27-->D:\Pillar Year\Term4\1930 ISTD - 50.001 Introduction to Information Systems &Programming\GitHub\Java_1dCalender\Trying_calendar\app\src\main\AndroidManifest.xml:19:27-74
+28            </intent-filter>
+29        </activity>
+30    </application>
+31
+32</manifest>

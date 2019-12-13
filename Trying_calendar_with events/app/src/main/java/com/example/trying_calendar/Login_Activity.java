@@ -18,8 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+/**Here we implemented a simple login activity
+ * utilizing firebase authentication
+ * if the user don't have the account,
+ * we could also let them register*/
 public class Login_Activity extends AppCompatActivity {
+    /**instantiate widget*/
     private EditText username;
     private EditText password;
     private Button signin;
@@ -30,19 +34,23 @@ public class Login_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
-
+        /**Find view by id*/
         username=findViewById(R.id.etusername);
         password=findViewById(R.id.etpassword);
         signin=findViewById(R.id.btnsignin);
         signup=findViewById(R.id.tvsignup);
         firebaseAuth= FirebaseAuth.getInstance();
         progressDialog=new ProgressDialog(this);
+
+        /**Here if user is already logged in,
+         * next time we don't require them to log in again*/
         FirebaseUser user=firebaseAuth.getCurrentUser();
 
         if (user!=null) {
             finish();
             startActivity(new Intent(Login_Activity.this,CalendarActivity.class));
         }
+        /**Click signin button, verify by firebaseAuth*/
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +71,7 @@ public class Login_Activity extends AppCompatActivity {
                 });
             }
         });
-
+        /**Direct the user to register activity*/
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

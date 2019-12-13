@@ -37,19 +37,29 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-
+/**This class is to create event:
+ *  users can
+ *      1. edit event title
+ *      2. edit start date&time , end date
+ *      3. edit event descriptions
+ *      4. invite their friends in Firebase database
+ *  After user clicks ok:
+ *      1. the event will be uploaded to firebase database.
+ *      2. According to whom he invited, events will be added to invitees' RSVP event lists*/
 public class Create_Event extends AppCompatActivity implements MultipleDialogFragment.onMultiChoiceListener{
-
+    /**Some widgets on UT*/
     Button btn_back_to_basic;
     EditText eventEdit;
     TextView date_from;
-    //TextView date_to;
     TextView fromTimeEdit;
     TextView toTimeEdit;
     EditText detailsEdit;
     Button btn_ok;
+    private ChipView mChipView;
+    private Button btnInvite;
+
+    /**Some data types and implementations */
     DatePickerDialog.OnDateSetListener mDateSetListener1;
-    DatePickerDialog.OnDateSetListener mDateSetListener2;
     TimePickerDialog timePickerDialog1;
     TimePickerDialog timePickerDialog2;
     Calendar calendar;
@@ -57,7 +67,6 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
     int currentMinute;
     String amPm;
     String start_date_str;
-    //String end_date_str;
     String start_time_str;
     String end_time_str;
     String user = "1000000";
@@ -65,16 +74,10 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
 
     /**Firebase instance*/
     FirebaseDatabase database=FirebaseDatabase.getInstance();
-    /**Recycler View*/
-    //private RecyclerView recyclerView;
-    //private RecyclerView.Adapter adapter;
-    /**Custom Dialog*/
-    //private TextView tvSelectedChoice;
     /**Chip View and tag*/
     ArrayList tags=new ArrayList<String>();
     ArrayList selectedTags_object =new ArrayList<String>();
-    private ChipView mChipView;
-    private Button btnInvite;
+
     /**Free time finder*/
     Button btnFreeTimeFinder;
 
@@ -85,20 +88,17 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        /**Find view by ID*/
         btn_back_to_basic = findViewById(R.id.btn_back_to_basic);
         eventEdit = findViewById(R.id.eventEdit);
         date_from = findViewById(R.id.date_from);
-        //date_to = findViewById(R.id.date_to);
         fromTimeEdit = findViewById(R.id.fromTimeEdit);
         toTimeEdit = findViewById(R.id.toTimeEdit);
         detailsEdit = findViewById(R.id.detailsEdit);
         btn_ok = findViewById(R.id.btn_ok);
-        final DatabaseReference mdatabaseRef=database.getReference("User");
-        /**Recycler View starts here*/
-        //recyclerView=findViewById(R.id.recyclerview);
-        //recyclerView.setHasFixedSize(true);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final ArrayList<String> userToInvite=new ArrayList<>();
+
+
         /**Custom Dialog*/
         /**Chip View starts here*/
         mChipView=findViewById(R.id.mChipView);
@@ -106,19 +106,23 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         /**Free Time Finder*/
         btnFreeTimeFinder=findViewById(R.id.btnFreeTimeFinder);
 
-
-
-        //get current user
+        final DatabaseReference mdatabaseRef=database.getReference("User");
+        final ArrayList<String> userToInvite=new ArrayList<>();
         firebaseAuth = FirebaseAuth.getInstance();
+
+        /**Get current user*/
         FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
         String email = user_firebase.getEmail().toString();
+        /**emailToName(String email)---> is a function that takes in String format of email
+         * and return whatever before "@", we treated this as the name node*/
         user = new RegistrationActivity().emailToName(email);
 
         //TODO: Btn free time finder
         btnFreeTimeFinder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /**Not complete yet, now just hardcode the free time
+                 * suppose to have an algorithm to find the free time period among certain time period*/
                 date_from.setText("26/12/2019");
                 fromTimeEdit.setText("00:00");
                 toTimeEdit.setText("00:00");
@@ -126,6 +130,9 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         });
 
         //TODO: Btn Selected people
+        /**Click the btnInvite will direct user to the dialog fragment,
+         * where all the user name nodes in firebase will appear,
+         * allow the user to choose*/
         btnInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,15 +145,15 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
                 }
             }
         });
-        //Navigation Bar Bottom
+        /**Navigation Bar Bottom*/
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-        //highlight menu items when clicked
+        /**highlight menu items when clicked*/
         Menu menu = bottomNav.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
 
-
+        /**Click different widgets in bottom Navigation bar will direct user to different activities*/
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -171,19 +178,24 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         mdatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                /**Data changed detected as type of DataSnapshot*/
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                        /**Recal mdatabaseRef is at "User",
+                         * so dataSnapshot.getChildren will give us the all the user*/
                         try {
                             Log.i("Shaozuo",snapshot.child("Name Node").getValue().toString());
+                            /**Listed_user is another data type
+                             * defined in Listed_user class,
+                             * can be instantiate using (String name, String role)*/
                             Listed_user listed_user=new Listed_user(
                                     snapshot.child("Name Node").getValue().toString(),snapshot.child("role").getValue().toString());
+                            /**userToInvite is an ArrayList storing all user's name node,
+                             * that could be invited.
+                             * This arrayList will be passed to MultipleDialogFragment*/
                             if (userToInvite.indexOf(listed_user.getUsername())==-1){
                                 userToInvite.add(listed_user.getUsername());
                             }
-                            //adapter=new UserAdaptor(userToInvite,Create_Event.this);
-                            //recyclerView.setAdapter(adapter);
-                            //openDialog();
-                            //Log.i("Shaozuo",String.valueOf(userToInvite.size()));
                         } catch (NullPointerException ex) {
                             Log.i("Shaozuo",ex.getMessage());
                         }
@@ -222,6 +234,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         });
 
         //ToDo: CHOOSE FROM DATE
+        /**Allow user to choose the date in Calendar View*/
         date_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,7 +253,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             }
         });
 
-        //initialise on date set listener object
+        /**initialise on date set listener object*/
         mDateSetListener1 = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -250,39 +263,6 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
                 date_from.setText(date);
             }
         };
-
-        //ToDo: CHOOSE TO DATE
-        /*
-        date_to.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(Create_Event.this,
-                        R.style.Theme_AppCompat_DayNight, mDateSetListener2, year,
-                        month, day);
-
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-
-                dialog.show();
-            }
-        });
-
-
-        //initialise on date set listener object
-        mDateSetListener2 = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Log.d("TAG", "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
-                month = month + 1; //jan= 0+1
-                String date = dayOfMonth + "/" + month + "/" + year;
-                date_to.setText(date);
-            }
-        };
-         */
 
         //ToDo: CHOOSE FROM TIME
         fromTimeEdit.setOnClickListener(new View.OnClickListener() {
@@ -332,38 +312,42 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
             }
         });
 
-        //take all the data and put event and event details to our firebase under user/event
+        /**take all the data and put event and event details to our firebase under user/event*/
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("Shaozuo","I just clicked the button_ok");
                 HashMap<String,String> event_details= new HashMap<>();
+                /**Get all the data user edits*/
                 start_date_str = date_from.getText().toString();
-                //end_date_str = date_to.getText().toString();
                 start_time_str = fromTimeEdit.getText().toString();
                 end_time_str = toTimeEdit.getText().toString();
                 event = eventEdit.getText().toString();
                 details = detailsEdit.getText().toString();
+                /**Check whether they are all valid*/
                 if (checkEventValid(event,start_date_str,start_time_str,end_time_str,details)) {
                     Intent backToCal = new Intent(Create_Event.this, CalendarActivity.class);
+
                     event_details.put("date_from", start_date_str);
-                    //event_details.put("date_to", end_date_str);
                     event_details.put("time_from", start_time_str);
                     event_details.put("time_to", end_time_str);
                     event_details.put("details", details);
                     HashMap<String, Object> a_new_event = new HashMap<>();
                     a_new_event.put(event,event_details);
+                    /**Store the event details as a HashMap data type,
+                     * passed to updateChildren function*/
+                    /**In the current user's child, just add this new event*/
                     mdatabaseRef.child(user).child("event").updateChildren(a_new_event);
-                    Log.i("Shaozuo","Still work here");
 
+                    /**We will also update the event as RSVP event under users that are being invited
+                     * selectedTags store all the users invited as Objects,
+                     * selectedTags is generated by onPostiveClickListener*/
                     for (int i = 0; i< selectedTags_object.size(); i++) {
                         Object user = selectedTags_object.get(i);
                         String user_str = user.toString();
-                        //Log.i("Shaozuo", user_str);
-                        //Log.i("Shaozuo", event);
-                        Log.i("Shaozuo","start date string"+start_date_str);
-                        Log.i("Shaozuo","start time string"+start_time_str);
-                        Log.i("Shaozuo","end time string"+end_time_str);
+                        //Log.i("Shaozuo","start date string"+start_date_str);
+                        //Log.i("Shaozuo","start time string"+start_time_str);
+                        //Log.i("Shaozuo","end time string"+end_time_str);
                         mdatabaseRef.child(user_str).child("RSVP events").updateChildren(a_new_event);
                     }
                     showToast(event);
@@ -377,6 +361,7 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
         });
 
     }
+    /**For now we just make sure they fill in not-null information*/
     public boolean checkEventValid(String title, String start_date, String start_time, String end_time, String details) {
         if (title.isEmpty()) {
             Toast.makeText(Create_Event.this, "Please enter the title",Toast.LENGTH_SHORT).show();
@@ -400,20 +385,19 @@ public class Create_Event extends AppCompatActivity implements MultipleDialogFra
     private void showToast(String text) {
         Toast.makeText(Create_Event.this, text, Toast.LENGTH_SHORT).show();
     }
-    public void openDialog(){
-
-    }
 
     //TODO: ADD custom dialog
-
+    /**These are the two parts that implement MultipleDialogFragment.onMultiChoiceListener
+     * details about selectedItemList in MultipleDialogFragment class*/
     @Override
     public void onPositiveButtonClicked(String[] list, ArrayList<String> selectedItemList) {
+        /*
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("Selected Choices=");
         for (String str:selectedItemList) {
             stringBuilder.append(str+" ");
         }
-        //tvSelectedChoice.setText(stringBuilder);
+         */
         selectedTags_object =selectedItemList;
         SimpleChipAdapter adapter=new SimpleChipAdapter(selectedTags_object);
         mChipView.setAdapter(adapter);
