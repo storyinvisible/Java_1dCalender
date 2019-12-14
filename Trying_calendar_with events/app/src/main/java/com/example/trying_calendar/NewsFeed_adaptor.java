@@ -34,7 +34,7 @@ public class NewsFeed_adaptor extends RecyclerView.Adapter<NewsFeed_adaptor.View
         FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
         String email = user_firebase.getEmail().toString();
         String user = new RegistrationActivity().emailToName(email);
-        mRSVP= database.getReference().child("User").child(user).child("RSVP events");
+        mRSVP= database.getReference().child("User").child(user).child("RSVP events"); // initiated 2 data base reference to transfer RSVP event to event or remove envent
         mUserevent= database.getReference().child("User").child(user).child("event");
     }
     @NonNull
@@ -66,9 +66,9 @@ public class NewsFeed_adaptor extends RecyclerView.Adapter<NewsFeed_adaptor.View
                     holder.RSVP_button.setText(R.string.remove_event);
                 }
                 else if(holder.RSVP_button.getText().toString().equals("Remove Event")) {
-                    EventList.remove(single_event_detail);
-                    remove_event(single_event_detail);
-                    NewsFeed_adaptor.this.notifyDataSetChanged();
+                    EventList.remove(single_event_detail); //
+                    remove_event(single_event_detail); // make sure it remove from datebase as well
+                   
                 }
             }
         });

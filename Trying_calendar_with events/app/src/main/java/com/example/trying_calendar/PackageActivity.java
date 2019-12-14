@@ -56,7 +56,7 @@ public class PackageActivity extends AppCompatActivity {
         add_packages=findViewById(R.id.add_packages);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         myRef = database.getReference("Community");
-        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();// get current user
 
         userPackages= database.getReference().child("User").child(PACKAGES);
         if (user != null) {
@@ -98,14 +98,14 @@ public class PackageActivity extends AppCompatActivity {
             }
         });
     }
-    public void get_list_of_packages(){
+    public void get_list_of_packages(){ // get the list of packages of the users
         myRef.child(PACKAGES).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<String> package_list= new ArrayList<>();
                 for(DataSnapshot choices:dataSnapshot.getChildren()) {
                     String package_names = choices.getKey();
-                    if(Unique_event.get(package_names)==null){
+                    if(Unique_event.get(package_names)==null){ // if it is not a packages that the user already have
                         package_list.add(package_names);
                     }
 
@@ -121,7 +121,7 @@ public class PackageActivity extends AppCompatActivity {
             }
         });
     }
-    public void get_current_packages(){
+    public void get_current_packages(){ // get all the other packages that the users
         userPackages.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -140,7 +140,7 @@ public class PackageActivity extends AppCompatActivity {
         });
 
     }
-    public void add_checkbox(ArrayList<String> package_list){
+    public void add_checkbox(ArrayList<String> package_list){// add the check box
 
         for(String packages: package_list){
             final CheckBox box= new CheckBox(this);

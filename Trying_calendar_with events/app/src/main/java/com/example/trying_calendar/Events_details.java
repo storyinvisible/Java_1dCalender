@@ -2,7 +2,7 @@ package com.example.trying_calendar;
 
 import java.util.HashMap;
 
-public class Events_details {
+public class Events_details { // this object allow the single event details to be added into one
     String date_from;
 
     String name;

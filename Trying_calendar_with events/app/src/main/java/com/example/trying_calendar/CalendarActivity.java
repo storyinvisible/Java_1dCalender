@@ -49,6 +49,7 @@ public class CalendarActivity extends Base_Calendar  {
     DatabaseReference mUserpackageRef;
     DatabaseReference mUserEventReference;
     DatabaseReference mpackageRef;
+    String current_user;
     ArrayList<WeekViewEvent> all_packages_event= new ArrayList<WeekViewEvent>();
 
     HashMap <String, WeekViewEvent> eventHashMap= new HashMap<>();
@@ -60,6 +61,8 @@ public class CalendarActivity extends Base_Calendar  {
         FirebaseUser user_firebase = firebaseAuth.getCurrentUser();
         String email = user_firebase.getEmail().toString();
         String user = new RegistrationActivity().emailToName(email);
+
+        current_user=user;
         mUserEventReference = FirebaseDatabase.getInstance().getReference("User"+"/"+user+"/"+"event");
         mUserpackageRef = FirebaseDatabase.getInstance().getReference("User"+"/"+user+"/Packages");
 
@@ -70,8 +73,8 @@ public class CalendarActivity extends Base_Calendar  {
         Menu menu = bottomNav.getMenu();
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
-        mWeekView = (WeekView) findViewById(R.id.weekView);
-        update_events();
+        mWeekView = (WeekView) findViewById(R.id.weekView); // find the calendar
+        update_events(); // update the events and get
         getAllPackages_name();
         mWeekView.setEmptyViewClickListener(this);
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
@@ -93,6 +96,7 @@ public class CalendarActivity extends Base_Calendar  {
             }
         });
 
+        get_free_time();
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
         mWeekView.setNumberOfVisibleDays(5);
@@ -148,21 +152,20 @@ public class CalendarActivity extends Base_Calendar  {
         mpackageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
 
                     if(event_names.get(snapshot.getKey())!=null){
                         HashMap<String, Object> package_with_details = (HashMap<String, Object>)snapshot.getValue();
                         String package_name= snapshot.getKey();
                         List<String> all_Date_in_a_week_day;
-
+                        // getting all the date string for the packages
                         all_Date_in_a_week_day = get_date_of_a_day(package_with_details.get("Start Date").toString(), package_with_details.get("End date").toString(), package_with_details.get("Weekday").toString());
                         for(String date: all_Date_in_a_week_day){
                             String date_str = date;
                             String start_time_str = package_with_details.get("Start Time").toString();
                             String end_time_str = package_with_details.get("End time").toString();
                             WeekViewEvent single_event = eventMaker(package_name, date_str,start_time_str,end_time_str);
-                            all_packages_event.add(single_event);
+                            all_packages_event.add(single_event);//add it to the list of event,
 
                         }
                     }
@@ -212,7 +215,7 @@ public class CalendarActivity extends Base_Calendar  {
         while (startDate.isBefore(endDate)){
             if ( startDate.getDayOfWeek() == whichday_tiaojian.get(which_day) ){
                 start_date_pure = startDate.toString().split("T")[0];
-
+                //
                 fridays.add(start_date_pure);
             }
             startDate = startDate.plusDays(1);
@@ -224,8 +227,13 @@ public class CalendarActivity extends Base_Calendar  {
 
     }
 
+
+
+
+
     //according to firebase, get user's events and display on calender
     public void update_events() {
+
 
         mUserEventReference.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange (@NonNull DataSnapshot dataSnapshot){
@@ -235,36 +243,36 @@ public class CalendarActivity extends Base_Calendar  {
                     all_event.put(event.getKey(), event.getValue());
                 }
 
-            for (Map.Entry<String, Object> entry : all_event.entrySet()) {
-                String event_name = entry.getKey();
-                HashMap<String, Object> one_event_with_details = (HashMap<String, Object>) entry.getValue();
+                for (Map.Entry<String, Object> entry : all_event.entrySet()) {
+                    String event_name = entry.getKey();
+                    HashMap<String, Object> one_event_with_details = (HashMap<String, Object>) entry.getValue();
 
 
 
-                String start_date_str = one_event_with_details.get("date_from").toString();
-                String start_time_str = one_event_with_details.get("time_from").toString();
-                String end_time_str = one_event_with_details.get("time_to").toString();
-                String start_date = start_date_str + " " + start_time_str;
-                String end_date_str = start_date_str + " " + end_time_str;
-                Calendar calendar_start = CalendarActivity.this.get_calendar(start_date);
-                Calendar calendar_end = get_calendar(end_date_str);
-                WeekViewEvent single_event = new WeekViewEvent(1, entry.getKey() , calendar_start,calendar_end);
-                Log.i("The event details",single_event.toString());
-                if(eventHashMap.get(entry.getKey())==null) {
-                    eventHashMap.put(entry.getKey(), single_event);
+                    String start_date_str = one_event_with_details.get("date_from").toString();
+                    String start_time_str = one_event_with_details.get("time_from").toString();
+                    String end_time_str = one_event_with_details.get("time_to").toString();
+                    String start_date = start_date_str + " " + start_time_str;
+                    String end_date_str = start_date_str + " " + end_time_str;
+                    Calendar calendar_start = CalendarActivity.this.get_calendar(start_date);
+                    Calendar calendar_end = get_calendar(end_date_str);
+                    WeekViewEvent single_event = new WeekViewEvent(1, entry.getKey() , calendar_start,calendar_end);
+                    Log.i("The event details",single_event.toString());
+                    if(eventHashMap.get(entry.getKey())==null) {
+                        eventHashMap.put(entry.getKey(), single_event);
+                    }
+                    if (one_event_with_details != null) {
+                        Toast.makeText(CalendarActivity.this, "every thing is good!!!!", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(CalendarActivity.this, "HashMap is good!!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
                 }
-                if (one_event_with_details != null) {
-                    Toast.makeText(CalendarActivity.this, "every thing is good!!!!", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(CalendarActivity.this, "HashMap is good!!!", Toast.LENGTH_SHORT).show();
-                }
-
+                mWeekView.notifyDatasetChanged();
 
             }
-            mWeekView.notifyDatasetChanged();
-
-        }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -277,7 +285,7 @@ public class CalendarActivity extends Base_Calendar  {
     //take event out and put in canlender
 
     @Override
-    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {// this function is the function that update the event to the actualy calendar
         // Populate the week view with some events.
 
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
@@ -297,7 +305,7 @@ public class CalendarActivity extends Base_Calendar  {
 
 
     }
-    public Calendar get_calendar(String datestring){
+    public Calendar get_calendar(String datestring){ // get calendar for dd/MM/yyyy hh:mm type of date string
         Calendar cal = Calendar.getInstance();
         Log.i("The datetime string", datestring);
         try {
@@ -316,6 +324,19 @@ public class CalendarActivity extends Base_Calendar  {
         Log.i("The datetime string", datestring);
         try {
             Date date1 = new SimpleDateFormat("yyyy/MM/dd hh:mm").parse(datestring);
+
+            cal.setTime(date1);
+        }
+        catch (Exception e){
+            System.out.println("Error occurs when set time ");
+        }
+        return cal;
+    }
+    public Calendar get_calendar_free_time(String datestring){  // base on the datetime string, return a calendar type yyyy-MM-dd hh:mm
+        Calendar cal = Calendar.getInstance();
+        Log.i("The datetime string", datestring);
+        try {
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(datestring);
 
             cal.setTime(date1);
         }
@@ -378,6 +399,26 @@ public class CalendarActivity extends Base_Calendar  {
     }
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
+    }
+    public void get_free_time(){
+        DatabaseReference free_time = FirebaseDatabase.getInstance().getReference().child("User").child(current_user).child("Free Timme");
+        free_time.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    String free_time_start= snapshot.getKey();
+                    String free_time_end= snapshot.getValue().toString();
+                    WeekViewEvent free_time= new WeekViewEvent(1,"Free time ", get_calendar_free_time(free_time_start),get_calendar_free_time(free_time_end));
+                    all_packages_event.add(free_time);
+                }
+                mWeekView.notifyDatasetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 
